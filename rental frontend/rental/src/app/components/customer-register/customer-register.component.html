@@ -1,0 +1,149 @@
+<div class="flex">
+  <div class="container">
+    <h2>Register as Customer</h2>
+    <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+      <div class="form-group">
+        <label for="username">Username</label>
+        <input
+          type="text"
+          id="username"
+          formControlName="username"
+          [class.error]="username?.invalid && username?.touched"
+        />
+        <div
+          *ngIf="username?.invalid && username?.touched"
+          class="error-message"
+        >
+          <span *ngIf="username?.errors?.['required']"
+            >Username is required</span
+          >
+          <span *ngIf="username?.errors?.['minlength']"
+            >Username must be at least 4 characters</span
+          >
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input
+          type="password"
+          id="password"
+          formControlName="password"
+          [class.error]="password?.invalid && password?.touched"
+        />
+        <div
+          *ngIf="password?.invalid && password?.touched"
+          class="error-message"
+        >
+          <span *ngIf="password?.errors?.['required']"
+            >Password is required</span
+          >
+          <span *ngIf="password?.errors?.['minlength']"
+            >Password must be at least 6 characters</span
+          >
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="confirmPassword">Confirm Password</label>
+        <input
+          type="password"
+          id="confirmPassword"
+          formControlName="confirmPassword"
+          [class.error]="confirmPassword?.invalid && confirmPassword?.touched"
+        />
+        <div
+          *ngIf="confirmPassword?.invalid && confirmPassword?.touched"
+          class="error-message"
+        >
+          <span *ngIf="confirmPassword?.errors?.['required']"
+            >Password confirmation is required</span
+          >
+          <span *ngIf="confirmPassword?.errors?.['passwordMismatch']"
+            >Passwords do not match</span
+          >
+        </div>
+      </div>
+
+      <!-- New fields -->
+      <div class="form-group">
+        <label for="firstName">First Name</label>
+        <input
+          type="text"
+          id="firstName"
+          formControlName="firstName"
+          [class.error]="firstName?.invalid && firstName?.touched"
+        />
+        <div
+          *ngIf="firstName?.invalid && firstName?.touched"
+          class="error-message"
+        >
+          <span *ngIf="firstName?.errors?.['required']"
+            >First name is required</span
+          >
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="lastName">Last Name</label>
+        <input
+          type="text"
+          id="lastName"
+          formControlName="lastName"
+          [class.error]="lastName?.invalid && lastName?.touched"
+        />
+        <div
+          *ngIf="lastName?.invalid && lastName?.touched"
+          class="error-message"
+        >
+          <span *ngIf="lastName?.errors?.['required']"
+            >Last name is required</span
+          >
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input
+          type="email"
+          id="email"
+          formControlName="email"
+          [class.error]="email?.invalid && email?.touched"
+        />
+        <div *ngIf="email?.invalid && email?.touched" class="error-message">
+          <span *ngIf="email?.errors?.['required']">Email is required</span>
+          <span *ngIf="email?.errors?.['email']"
+            >Please enter a valid email</span
+          >
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="phone">Phone</label>
+        <input
+          type="tel"
+          id="phone"
+          formControlName="phone"
+          [class.error]="phone?.invalid && phone?.touched"
+        />
+        <div *ngIf="phone?.invalid && phone?.touched" class="error-message">
+          <span *ngIf="phone?.errors?.['required']"
+            >Phone number is required</span
+          >
+        </div>
+      </div>
+
+      <button type="submit" [disabled]="registerForm.invalid || isLoading">
+        {{ isLoading ? "Registering..." : "Register" }}
+      </button>
+
+      <div *ngIf="error" class="error-message text-center">
+        {{ error }}
+      </div>
+
+      <div class="link">
+        <a routerLink="/login">Already have an account? Login here</a>
+      </div>
+    </form>
+  </div>
+</div>

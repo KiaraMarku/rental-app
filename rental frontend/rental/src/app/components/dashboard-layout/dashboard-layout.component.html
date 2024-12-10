@@ -1,0 +1,16 @@
+<!-- dashboard-layout.component.html -->
+<div class="dashboard-container">
+  <header class="header">
+    <app-header [username]="username"></app-header>
+  </header>
+
+  <div class="main-layout">
+    <nav class="sidebar">
+      <app-sidebar [role]="role"></app-sidebar>
+    </nav>
+
+    <main class="content">
+      <router-outlet></router-outlet>
+    </main>
+  </div>
+</div>
