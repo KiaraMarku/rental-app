@@ -1,6 +1,7 @@
-package com.example.rental;
+package com.example.rental.entety;
 
 
+import com.example.rental.entety.Authority;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;

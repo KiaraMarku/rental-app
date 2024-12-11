@@ -1,6 +1,6 @@
-package com.example.rental;
+package com.example.rental.repository;
 
-import com.example.rental.User;
+import com.example.rental.entety.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

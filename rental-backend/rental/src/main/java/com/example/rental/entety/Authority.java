@@ -1,4 +1,4 @@
-package com.example.rental;
+package com.example.rental.entety;
 
 import jakarta.persistence.*;
 import lombok.Data;
