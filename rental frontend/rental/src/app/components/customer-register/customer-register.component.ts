@@ -81,8 +81,10 @@ export class CustomerRegisterComponent {
           });
         },
         error: (error) => {
-          console.log(error.error?.message )
-          this.error = 'Registration failed. Please try again.';
+          if(error.error?.message.includes('email')){
+            error.error.message='Email already exists';
+          }
+          this.error = error.error?.message|| 'Registration failed. Please try again.';
           this.isLoading = false;
         }
       });

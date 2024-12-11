@@ -1,7 +1,11 @@
-package com.example.rental.security;
+package com.example.rental.controller;
 
 
 import com.example.rental.dto.RegistrationDTO;
+import com.example.rental.exceptions.CustomRegistrationException;
+import com.example.rental.security.JwtTokenProvider;
+import com.example.rental.security.UserRegistrationService;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -10,6 +14,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
+import java.sql.SQLException;
 import java.util.Map;
 @CrossOrigin(origins = "http://localhost:4200") // Allow requests from Angular
 @RestController
@@ -19,7 +24,7 @@ public class AuthController {
     private final AuthenticationManager authenticationManager;
     private final JwtTokenProvider tokenProvider;
 
-    UserRegistrationService  registrationService;
+    UserRegistrationService registrationService;
 
     public AuthController(
         AuthenticationManager authenticationManager,
@@ -54,8 +59,9 @@ public class AuthController {
             try {
                 registrationService.registerCustomer(dto);
                 return ResponseEntity.ok(Map.of("message", "Customer registered successfully"));
-            } catch (RuntimeException e) {
-                return ResponseEntity.badRequest().body(e.getMessage());
+            }
+            catch (RuntimeException e) {
+                return ResponseEntity.badRequest().body(Map.of("message", e.getMessage()));
             }
         }
 
@@ -65,7 +71,7 @@ public class AuthController {
                 registrationService.registerAgent(dto);
                 return ResponseEntity.ok(Map.of("message", "Agent registered successfully"));
             } catch (RuntimeException e) {
-                return ResponseEntity.badRequest().body(e.getMessage());
+                return ResponseEntity.badRequest().body(Map.of("message", e.getMessage()));
             }
         }
     }

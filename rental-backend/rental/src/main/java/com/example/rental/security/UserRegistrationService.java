@@ -1,18 +1,21 @@
 package com.example.rental.security;
 
-import com.example.rental.Authority;
-import com.example.rental.User;
-import com.example.rental.UserRepository;
+import com.example.rental.entety.Authority;
+import com.example.rental.entety.User;
+import com.example.rental.exceptions.CustomRegistrationException;
+import com.example.rental.repository.UserRepository;
 import com.example.rental.dto.RegistrationDTO;
 import com.example.rental.entety.Agent;
 import com.example.rental.entety.Client;
 import com.example.rental.repository.AgentRepository;
 import com.example.rental.repository.ClientRepository;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
+import org.apache.commons.lang3.exception.ExceptionUtils;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.sql.SQLException;
 
 
 @Service
@@ -39,17 +42,20 @@ public class UserRegistrationService {
             throw new RuntimeException("Username already exists");
         }
 
-        User user = createUser(dto.getUsername(), dto.getPassword(), "ROLE_CUSTOMER");
+            // Your existing registration logic
+            User user = createUser(dto.getUsername(), dto.getPassword(), "ROLE_CUSTOMER");
 
-        Client client = new Client();
-        client.setUsername(dto.getUsername());
-        client.setFirstName(dto.getFirstName());
-        client.setLastName(dto.getLastName());
-        client.setEmail(dto.getEmail());
-        client.setPhone(dto.getPhone());
+            Client client = new Client();
+            client.setUsername(dto.getUsername());
+            client.setFirstName(dto.getFirstName());
+            client.setLastName(dto.getLastName());
+            client.setEmail(dto.getEmail());
+            client.setPhone(dto.getPhone());
 
-        userRepository.save(user);
-        clientRepository.save(client);
+            userRepository.save(user);
+            clientRepository.save(client);
+
+
     }
 
     public void registerAgent(RegistrationDTO dto) {
