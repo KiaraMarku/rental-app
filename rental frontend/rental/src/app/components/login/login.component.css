@@ -1,79 +1,89 @@
 .login-container {
-    max-width: 400px;
-    margin: 50px auto;
-    padding: 20px;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    background-color: #bd9ceb;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    font-family: Arial, sans-serif;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    background-color: #f0f0f0;
 }
 
-h2 {
-    text-align: center;
-    color: #333;
-    margin-bottom: 20px;
-}
-
-.login-form {
+.center-content {
     display: flex;
     flex-direction: column;
+    align-items: center;
+    text-align: center;
 }
 
-.form-group {
-    margin-bottom: 15px;
-}
-
-label {
-    font-weight: bold;
-    margin-bottom: 5px;
-    display: block;
-}
-
-input {
+.logo-container {
+    margin-bottom: 10px; /* Adjust the space between the logo and the card */
+    display: flex;
+    justify-content: center; /* Center the logo */
     width: 100%;
-    padding: 8px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
+}
+
+.logo {
+    max-width: 100px;
+    height: auto;
+}
+
+mat-card {
+    padding: 20px;
+    margin: 20px;
+    background-color: #ffffffca;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    max-width: 1000px;
+    max-height: 1000px;
+    border-radius: 20px;
+}
+
+mat-card-title {
+    font-size: 28px;
+    text-align: center;
+    padding: 40px;
+}
+
+mat-card-subtitle {
+    color: rgba(0, 0, 0, 0.865);
+    font-size: 18px;
+    padding: 10px;
+    font-weight: 400;
+    text-align: left;
+}
+
+mat-form-field {
+    width: 100%;
+    margin-top: 16px;
+    color: #ffffff;
+}
+
+mat-card-footer {
+    margin-top: 16px;
+    text-align: center;
     font-size: 14px;
 }
 
-input.invalid {
-    border-color: #e74c3c;
-    background-color: #ffe6e6;
+mat-card-content button {
+    margin-top: 16px;
+    background-color: rgba(169, 160, 160, 0.858);
+    border-radius: 3px;
+    width: max-content;
+    height: 50px;
+    color: #ffffff;
+    float: right;
+    border-color: grey;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
 }
 
-button.btn {
-    width: 100%;
-    padding: 10px;
-    font-size: 16px;
-    color: #fff;
-    background-color: #3b08b3;
-    border: none;
-    border-radius: 4px;
+span {
+    text-decoration: underline;
+    color: blue;
+}
+
+span:hover {
+    color: rgb(5, 176, 176);
     cursor: pointer;
-    transition: background-color 0.3s ease;
 }
 
-button.btn:disabled {
-    background-color: #ccc;
-    cursor: not-allowed;
-}
-
-button.btn:hover:not(:disabled) {
-    background-color: #0056b3;
-}
-
-.error {
-    color: #e74c3c;
-    font-size: 12px;
-    margin-top: 5px;
-}
-
-.error-message {
-    margin-top: 15px;
-    padding: 10px;
-    color: #e43131;
-    border-radius: 4px;
-    text-align: center;
+mat-card-content button:hover {
+    color: black;
+    cursor: pointer;
 }

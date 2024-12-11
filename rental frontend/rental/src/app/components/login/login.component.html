@@ -1,65 +1,76 @@
 <div class="login-container">
-  <h2>Login</h2>
-  <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="login-form">
-    <div class="form-group">
-      <label for="username">Username</label>
-      <input
-        id="username"
-        type="text"
-        formControlName="username"
-        class="form-control"
-        placeholder="Enter your username"
-        [class.invalid]="
-          loginForm.get('username')?.invalid &&
-          loginForm.get('username')?.touched
-        "
+  <mat-card class="card">
+    <div class="logo-container">
+      <img 
+        src="/Gemini_Generated_Image_oikn1moikn1moikn.jpeg" 
+        alt="Logo" 
+        class="logo"
       />
-      <div
-        *ngIf="
-          loginForm.get('username')?.invalid &&
-          loginForm.get('username')?.touched
-        "
-        class="error"
-      >
-        Username is required.
-      </div>
     </div>
+    <mat-card-header class="center-content">
+      <mat-card-title>Log In</mat-card-title>
+      <mat-card-subtitle>In order to proceed to our website, please log in to your account.</mat-card-subtitle>
+    </mat-card-header>
 
-    <div class="form-group">
-      <label for="password">Password</label>
-      <input
-        id="password"
-        type="password"
-        formControlName="password"
-        class="form-control"
-        placeholder="Enter your password"
-        [class.invalid]="
-          loginForm.get('password')?.invalid &&
-          loginForm.get('password')?.touched
-        "
-      />
-      <div
-        *ngIf="
-          loginForm.get('password')?.invalid &&
-          loginForm.get('password')?.touched
-        "
-        class="error"
-      >
-        Password is required.
-      </div>
-    </div>
+    <mat-card-content>
+      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+        <!-- Username Field -->
+        <mat-form-field class="full-width" appearance="fill">
+          <mat-label>Username</mat-label>
+          <input
+            matInput
+            type="text"
+            id="username"
+            formControlName="username"
+            placeholder="Enter your username"
+            [class.invalid]="
+              loginForm.get('username')?.invalid && loginForm.get('username')?.touched
+            "
+          />
+          <mat-error *ngIf="loginForm.get('username')?.invalid && loginForm.get('username')?.touched">
+            Username is required.
+          </mat-error>
+        </mat-form-field>
 
-    <button
-      type="submit"
-      [disabled]="isLoading || loginForm.invalid"
-      class="btn"
-    >
-      {{ isLoading ? "Logging in..." : "Login" }}
-    </button>
+        <!-- Password Field -->
+        <mat-form-field class="full-width" appearance="fill">
+          <mat-label>Password</mat-label>
+          <input
+            matInput
+            type="password"
+            id="password"
+            formControlName="password"
+            placeholder="Enter your password"
+            [class.invalid]="
+              loginForm.get('password')?.invalid && loginForm.get('password')?.touched
+            "
+          />
+          <mat-error *ngIf="loginForm.get('password')?.invalid && loginForm.get('password')?.touched">
+            Password is required.
+          </mat-error>
+        </mat-form-field>
 
-    <div *ngIf="error" class="error-message">
-      {{ error }}
-    </div>
-  </form>
-  <a routerLink="/register"> Dont have an account. Sign up here</a>
+        <!-- Login Button -->
+        <button
+          mat-raised-button
+          color="primary"
+          type="submit"
+          [disabled]="isLoading || loginForm.invalid"
+          class="btn"
+        >
+          {{ isLoading ? 'Logging in...' : 'Log In' }}
+        </button>
+
+        <!-- Error Message -->
+        <div *ngIf="error" class="error-message">
+          {{ error }}
+        </div>
+      </form>
+    </mat-card-content>
+
+    <!-- Sign Up Link -->
+    <mat-card-footer>
+      Don't have an account? <span [routerLink]="'/register'">Sign Up</span>.
+    </mat-card-footer>
+  </mat-card>
 </div>
