@@ -2,13 +2,26 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink, Router } from '@angular/router';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
+import { MatIconModule} from '@angular/material/icon';
 import { AuthService } from '../../../services/auth.service';
 
 
 @Component({
   selector: 'app-customer-register',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule,RouterLink],
+    imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    MatCardModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatButtonModule,
+    MatIconModule
+  ],
   
   templateUrl: './agent-register.component.html',
   styleUrl: './agent-register.component.css'
@@ -60,8 +73,7 @@ export class AgentRegisterComponent {
       this.error = '';
       this.message='';
       
-       const { confirmPassword, ...registrationData } = this.registerForm.value;
-    
+      const { confirmPassword, ...registrationData } = this.registerForm.value;
       
       this.authService.registerAgent(registrationData).subscribe({
         next: () => {

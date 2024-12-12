@@ -5,6 +5,11 @@ body {
     background-color: #f9f9f9;
 }
 
+.logo {
+    max-height: 50px;
+    width: 60px;
+}
+
 /* Header Styles */
 .header {
     display: flex;
@@ -48,4 +53,6 @@ body {
     background-color: #f0f0f0;
     cursor: pointer;
 }
+
+
 
