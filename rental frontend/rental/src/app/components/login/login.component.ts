@@ -12,12 +12,12 @@ import { MatButtonModule } from '@angular/material/button';
   selector: 'app-login',
   standalone: true,
   imports: [
-    CommonModule, 
+    CommonModule,
     ReactiveFormsModule,
     RouterLink,
     MatCardModule,
-    MatFormFieldModule, 
-    MatInputModule, 
+    MatFormFieldModule,
+    MatInputModule,
     MatButtonModule
   ],
   templateUrl: './login.component.html',
@@ -43,15 +43,21 @@ export class LoginComponent {
     if (this.loginForm.valid) {
       this.isLoading = true;
       this.error = '';
-      
+
       const { username, password } = this.loginForm.value;
-      
+
       this.authService.login(username, password).subscribe({
         next: () => {
           this.router.navigate(['/dashboard']);
         },
         error: (error) => {
-          this.error = error.error?.message || 'Login failed';
+          if (error.error?.message == 'Failed to fetch') {
+            this.error = "There is a network error.We will be right back!"
+          }
+          else {
+            this.error = error.error?.message || 'Login failed';
+          }
+
           this.isLoading = false;
         }
       });

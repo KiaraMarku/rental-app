@@ -1,5 +1,6 @@
 package com.example.rental.entety;
 
+import com.example.rental.dto.UserDTO;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -10,7 +11,7 @@ import java.util.List;
 @Table(name = "agent")
 @Data
 @NoArgsConstructor
-public class Agent {
+public class Agent  {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;

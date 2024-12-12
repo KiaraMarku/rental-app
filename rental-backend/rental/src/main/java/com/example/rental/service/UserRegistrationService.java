@@ -1,21 +1,16 @@
-package com.example.rental.security;
+package com.example.rental.service;
 
 import com.example.rental.entety.Authority;
 import com.example.rental.entety.User;
-import com.example.rental.exceptions.CustomRegistrationException;
 import com.example.rental.repository.UserRepository;
-import com.example.rental.dto.RegistrationDTO;
+import com.example.rental.dto.UserDTO;
 import com.example.rental.entety.Agent;
 import com.example.rental.entety.Client;
 import com.example.rental.repository.AgentRepository;
 import com.example.rental.repository.ClientRepository;
-import org.apache.commons.lang3.exception.ExceptionUtils;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.sql.SQLException;
 
 
 @Service
@@ -37,7 +32,7 @@ public class UserRegistrationService {
     }
 
 
-    public void registerCustomer(RegistrationDTO dto) {
+    public void registerCustomer(UserDTO dto) {
         if (userRepository.existsByUsername(dto.getUsername())) {
             throw new RuntimeException("Username already exists");
         }
@@ -58,7 +53,7 @@ public class UserRegistrationService {
 
     }
 
-    public void registerAgent(RegistrationDTO dto) {
+    public void registerAgent(UserDTO dto) {
 //        if (!isCurrentUserAdmin()) {
 //            throw new SecurityException("Only admins can register agents");
 //        }

@@ -14,15 +14,22 @@
 }
 
 .logo-container {
-    margin-bottom: 10px; /* Adjust the space between the logo and the card */
+    margin-bottom: 10px;
+    /* Adjust the space between the logo and the card */
     display: flex;
-    justify-content: center; /* Center the logo */
+    justify-content: center;
+    /* Center the logo */
     width: 100%;
 }
 
 .logo {
     max-width: 100px;
     height: auto;
+}
+
+.error-message {
+    color: red;
+    text-align: center;
 }
 
 mat-card {
