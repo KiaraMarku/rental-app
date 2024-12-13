@@ -11,7 +11,8 @@
     
     <mat-card-header class="center-content">
       <mat-card-title>Register as a Customer</mat-card-title>
-      <mat-card-subtitle>If you are interested in renting our properties, please create an account to continue.</mat-card-subtitle>
+      <mat-card-subtitle>If you are interested in renting our properties, please create an account to
+        continue.</mat-card-subtitle>
     </mat-card-header>
 
     <mat-card-content>
@@ -20,7 +21,8 @@
           <div class="left-column">
             <mat-form-field appearance="fill">
               <mat-label>First Name</mat-label>
-              <input matInput type="text" formControlName="firstName" [class.error]="firstName?.invalid && firstName?.touched">
+              <input matInput type="text" formControlName="firstName"
+            [class.error]="firstName?.invalid && firstName?.touched">
               <mat-error *ngIf="firstName?.invalid && firstName?.touched">
                 <span *ngIf="firstName?.errors?.['required']">First name is required</span>
               </mat-error>
@@ -33,6 +35,15 @@
                 <span *ngIf="lastName?.errors?.['required']">Last name is required</span>
               </mat-error>
             </mat-form-field>
+
+        <mat-form-field appearance="fill">
+          <mat-label>Username</mat-label>
+          <input matInput type="text" formControlName="username" [class.error]="username?.invalid && username?.touched">
+          <mat-error *ngIf="username?.invalid && username?.touched">
+            <span *ngIf="username?.errors?.['required']">Username is required</span>
+            <span *ngIf="username?.errors?.['minlength']">Username must be at least 4 characters</span>
+          </mat-error>
+        </mat-form-field>
 
             <mat-form-field appearance="fill">
               <mat-label>Email</mat-label>

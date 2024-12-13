@@ -20,8 +20,11 @@ public class Property {
     private Integer agentId;
     private String address;
     private String description;
+
+    @Column(name = "rent_price")
     private BigDecimal rent;
     private String status;
+
     @Column(name = "contract_duration")
     private Integer contractDuration;
 
@@ -33,5 +36,8 @@ public class Property {
     private Rent activeRent;
 
     @OneToOne(mappedBy = "property")
-    private Reservation activeReservations;
+    private Reservation activeReservation;
+
+    @Column(name = "image_url")
+    private String imageUrl;
 }

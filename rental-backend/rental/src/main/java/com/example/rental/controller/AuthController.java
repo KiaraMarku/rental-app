@@ -1,20 +1,16 @@
 package com.example.rental.controller;
 
 
-import com.example.rental.dto.RegistrationDTO;
-import com.example.rental.exceptions.CustomRegistrationException;
+import com.example.rental.dto.UserDTO;
 import com.example.rental.security.JwtTokenProvider;
-import com.example.rental.security.UserRegistrationService;
-import org.springframework.dao.DataIntegrityViolationException;
+import com.example.rental.service.UserRegistrationService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
-import java.sql.SQLException;
 import java.util.Map;
 @CrossOrigin(origins = "http://localhost:4200") // Allow requests from Angular
 @RestController
@@ -55,7 +51,7 @@ public class AuthController {
 
 
         @PostMapping("/register/customer")
-        public ResponseEntity<?> registerCustomer( @RequestBody RegistrationDTO dto) {
+        public ResponseEntity<?> registerCustomer( @RequestBody UserDTO dto) {
             try {
                 registrationService.registerCustomer(dto);
                 return ResponseEntity.ok(Map.of("message", "Customer registered successfully"));
@@ -66,7 +62,7 @@ public class AuthController {
         }
 
         @PostMapping("/register/agent")
-        public ResponseEntity<?> registerAgent( @RequestBody RegistrationDTO dto) {
+        public ResponseEntity<?> registerAgent( @RequestBody UserDTO dto) {
             try {
                 registrationService.registerAgent(dto);
                 return ResponseEntity.ok(Map.of("message", "Agent registered successfully"));

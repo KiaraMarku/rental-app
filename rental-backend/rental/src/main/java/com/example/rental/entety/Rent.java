@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
 @Entity
@@ -23,6 +24,7 @@ public class Rent {
     private LocalDate rentStart;
     @Column(name = "rent_end")
     private LocalDate rentEnd;
+    private BigDecimal price;
 
     @OneToOne
     @JoinColumn(name = "property_id", insertable = false, updatable = false)

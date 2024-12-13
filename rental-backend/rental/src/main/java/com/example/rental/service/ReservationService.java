@@ -1,0 +1,84 @@
+package com.example.rental.service;
+
+import com.example.rental.dto.ReservationDTO;
+import com.example.rental.entety.Client;
+import com.example.rental.entety.Property;
+import com.example.rental.entety.Reservation;
+import com.example.rental.repository.ClientRepository;
+import com.example.rental.repository.PropertyRepository;
+import com.example.rental.repository.ReservationRepository;
+import org.modelmapper.ModelMapper;
+import org.springframework.stereotype.Service;
+
+import java.time.LocalDateTime;
+import java.util.List;
+
+@Service
+public class ReservationService {
+    private final ReservationRepository reservationRepository;
+    private final PropertyRepository propertyRepository;
+    private final ClientRepository clientRepository;
+
+
+    public ReservationService(ReservationRepository reservationRepository,
+                              PropertyRepository propertyRepository,
+                              ClientRepository clientRepository) {
+        this.reservationRepository = reservationRepository;
+        this.propertyRepository = propertyRepository;
+        this.clientRepository = clientRepository;
+
+    }
+
+    public List<Reservation> getAllReservations() {
+        return reservationRepository.findAll();
+    }
+
+    public Reservation getReservationById(Integer id) {
+        return reservationRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Reservation not found"));
+    }
+
+    public Reservation createReservation(ReservationDTO dto) {
+        Property property = propertyRepository.findById(dto.getPropertyId())
+                .orElseThrow(() -> new RuntimeException("Property not found"));
+
+        if (!property.getStatus().equals("available")) {
+            throw new RuntimeException("Property is not available for reservation");
+        }
+
+        Client client = clientRepository.findById(dto.getClientId())
+                .orElseThrow(() -> new RuntimeException("Client not found"));
+
+        Reservation reservation = new Reservation();
+        reservation.setProperty(property);
+        reservation.setClient(client);
+        reservation.setReservedAt(LocalDateTime.now());
+
+
+        property.setStatus("reserved");
+        propertyRepository.save(property);
+
+        return reservationRepository.save(reservation);
+    }
+
+    public void cancelReservation(Integer id) {
+        Reservation reservation = reservationRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Reservation not found"));
+
+        Property property = reservation.getProperty();
+        property.setStatus("available");
+        propertyRepository.save(property);
+
+        reservationRepository.delete(reservation);
+    }
+
+    public Reservation getReservationByPropertyId(Integer propertyId) {
+        return reservationRepository.findByPropertyId(propertyId)
+                .orElseThrow(() -> new RuntimeException("No reservation found for this property"));
+    }
+
+    public List<Reservation> getReservationsByClientId(Integer clientId) {
+        return reservationRepository.findByClientId(clientId);
+    }
+
+}
