@@ -1,18 +1,18 @@
-/* property-management.component.css */
 .container {
     padding: 20px;
 }
 
 .add-property-form {
-    max-width: 600px;
+    max-width: 800px;
     margin-bottom: 40px;
     margin-right: 10px;
 }
 
 .form-group {
     margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
 }
-
 
 label {
     display: block;
@@ -20,9 +20,7 @@ label {
     font-weight: bold;
 }
 
-input,
-select,
-textarea {
+input, select, textarea {
     width: 95%;
     padding: 8px;
     border: 1px solid #ddd;
@@ -47,6 +45,7 @@ button {
     color: white;
     border-radius: 4px;
     cursor: pointer;
+    width: 200px;
 }
 
 button:disabled {
@@ -91,7 +90,6 @@ button:disabled {
     border-radius: 4px;
 }
 
-/* property-management.component.css */
 .modal {
     display: none;
     position: fixed;
@@ -101,45 +99,34 @@ button:disabled {
     height: 100%;
     background-color: rgba(0, 0, 0, 0.5);
     z-index: 1000;
-}
-
-.show-modal {
-    display: flex;
     justify-content: center;
     align-items: center;
 }
 
-.modal-content {
-    background-color: white;
-    padding: 15px;
-    border-radius: 5px;
-    width: 500px;
-    max-width: 90%;
-}
-
-.modal-header {
+.show-modal {
     display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 15px;
 }
 
-.close-button {
-    border: none;
-    color: #e74c3c;
-    background-color: white;
-    font-size: 24px;
-    cursor: pointer;
+mat-card {
+    width: 700px;
+    padding: 2rem;
+    border-radius: 8px;
 }
 
-.add-button {
-    padding: 10px 20px;
-    background-color: #7a34db;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    margin: 20px 0px;
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+mat-form-field {
+    width: 100%;
+}
+
+.actions {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 20px;
+    text-align: center;
 }
 
 .action-buttons {
@@ -149,7 +136,6 @@ button:disabled {
 }
 
 .edit-btn {
-
     padding: 5px 15px;
     background-color: #a65ee6;
     color: white;
@@ -167,11 +153,59 @@ button:disabled {
     cursor: pointer;
 }
 
-
+.add-button {
+    padding: 10px 20px;
+    background-color: #7a34db;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin: 20px 0px;
+}
 
 .modal-actions {
     display: flex;
     justify-content: flex-end;
     gap: 10px;
     margin-top: 20px;
+}
+
+mat-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+}
+
+mat-card-header mat-icon:hover {
+    cursor: pointer;
+    color: #7a34db;
+}
+
+:host ::ng-deep .mat-mdc-text-field-wrapper {
+    height: 56px;
+}
+
+.form-container {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+.form-column {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+
+@media (max-width: 768px) {
+    mat-card {
+        width: 90%;
+        padding: 1.5rem;
+    }
+
+    button {
+        width: 100%;
+    }
 }

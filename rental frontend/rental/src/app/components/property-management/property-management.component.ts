@@ -11,17 +11,24 @@ import { MatCardModule } from "@angular/material/card";
 import { MatButtonModule } from "@angular/material/button";
 import { MatOptionModule } from "@angular/material/core";
 import { MatIconModule } from "@angular/material/icon";
-
+import { MatSelectModule } from '@angular/material/select';
+import { MatDividerModule } from '@angular/material/divider';
 
 @Component({
   selector: 'app-property-management',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, MatCardModule,
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    MatCardModule,
     MatFormFieldModule,
     MatInputModule,
     MatButtonModule,
     MatOptionModule,
-    MatIconModule,],
+    MatIconModule,
+    MatSelectModule,
+    MatDividerModule
+  ],
   templateUrl: './property-management.component.html',
   styleUrls: ['./property-management.component.css']
 })
@@ -84,9 +91,6 @@ export class PropertyManagementComponent implements OnInit {
       reader.readAsDataURL(file);
     }
   }
-
-
-
 
   showModal() {
     this.isModalOpen = true;

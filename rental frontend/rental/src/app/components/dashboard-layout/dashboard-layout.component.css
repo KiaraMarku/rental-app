@@ -30,6 +30,4 @@
 .content {
     flex: 1;
     overflow-y: auto;
-    /* Allow scrolling in content area */
-    padding: 20px;
 }
