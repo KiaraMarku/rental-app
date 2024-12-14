@@ -35,7 +35,17 @@ public class ReservationController {
             Reservation reservation = reservationService.createReservation(dto);
             return ResponseEntity.ok(reservation);
         } catch (RuntimeException e) {
-            return ResponseEntity.badRequest().body(Map.of("error", e.getMessage()));
+            return ResponseEntity.badRequest().body(Map.of("message", e.getMessage()));
+        }
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<?> updateReservation(@PathVariable int id,@RequestBody ReservationDTO dto) {
+        try {
+            Reservation reservation = reservationService.updateReservation(id,dto);
+            return ResponseEntity.ok(reservation);
+        } catch (RuntimeException e) {
+            return ResponseEntity.badRequest().body(Map.of("message", e.getMessage()));
         }
     }
 
@@ -45,7 +55,7 @@ public class ReservationController {
             reservationService.cancelReservation(id);
             return ResponseEntity.ok(Map.of("message", "Reservation cancelled successfully"));
         } catch (RuntimeException e) {
-            return ResponseEntity.badRequest().body(Map.of("error", e.getMessage()));
+            return ResponseEntity.badRequest().body(Map.of("message", e.getMessage()));
         }
     }
 

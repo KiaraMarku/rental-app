@@ -41,7 +41,7 @@ public class PropertyController {
             return ResponseEntity.ok(property);
         } catch (Exception e) {
             return ResponseEntity.badRequest()
-                .body(Map.of("error", e.getMessage()));
+                .body(Map.of("message", e.getMessage()));
         }
     }
 
@@ -52,7 +52,7 @@ public class PropertyController {
             return ResponseEntity.ok(properties);
         } catch (Exception e) {
             return ResponseEntity.badRequest()
-                .body(Map.of("error", e.getMessage()));
+                .body(Map.of("message", e.getMessage()));
         }
     }
 
@@ -63,7 +63,7 @@ public class PropertyController {
             return ResponseEntity.ok(updated);
         } catch (Exception e) {
             return ResponseEntity.badRequest()
-                .body(Map.of("error", e.getMessage()));
+                .body(Map.of("message", e.getMessage()));
         }
     }
 
@@ -75,7 +75,7 @@ public class PropertyController {
                 .body(Map.of("message", "Property deleted successfully"));
         } catch (Exception e) {
             return ResponseEntity.badRequest()
-                .body(Map.of("error", e.getMessage()));
+                .body(Map.of("message", e.getMessage()));
         }
     }
 
@@ -86,7 +86,7 @@ public class PropertyController {
             return ResponseEntity.ok(properties);
         } catch (Exception e) {
             return ResponseEntity.badRequest()
-                .body(Map.of("error", e.getMessage()));
+                .body(Map.of("message", e.getMessage()));
         }
     }
 }

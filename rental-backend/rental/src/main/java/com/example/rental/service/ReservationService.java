@@ -9,24 +9,28 @@ import com.example.rental.repository.PropertyRepository;
 import com.example.rental.repository.ReservationRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
+@Transactional
 public class ReservationService {
     private final ReservationRepository reservationRepository;
     private final PropertyRepository propertyRepository;
     private final ClientRepository clientRepository;
 
+    private ModelMapper modelMapper;
+
 
     public ReservationService(ReservationRepository reservationRepository,
                               PropertyRepository propertyRepository,
-                              ClientRepository clientRepository) {
+                              ClientRepository clientRepository, ModelMapper modelMapper) {
         this.reservationRepository = reservationRepository;
         this.propertyRepository = propertyRepository;
         this.clientRepository = clientRepository;
-
+        this.modelMapper = modelMapper;
     }
 
     public List<Reservation> getAllReservations() {
@@ -55,8 +59,27 @@ public class ReservationService {
         reservation.setReservedAt(LocalDateTime.now());
 
 
-        property.setStatus("reserved");
-        propertyRepository.save(property);
+//        property.setStatus("reserved");
+//        propertyRepository.save(property);
+
+        return reservationRepository.save(reservation);
+    }
+
+    public Reservation updateReservation(int reservationId,ReservationDTO dto ){
+        Reservation reservation=reservationRepository.findById(reservationId)
+                .orElseThrow(() -> new RuntimeException("Could not find reservation"));
+
+        modelMapper.map(dto,reservation);
+        Property property=propertyRepository.findById(dto.getPropertyId())
+                .orElseThrow(() -> new RuntimeException("Could not find property for reservation"));
+
+        if (!property.getStatus().equals("available")) {
+            throw new RuntimeException("Property is not available for reservation");
+        }
+
+        Client client=clientRepository.findById(dto.getClientId())
+                .orElseThrow(() -> new RuntimeException("Could not find client for reservation"));
+        reservation.setClient(client);
 
         return reservationRepository.save(reservation);
     }
@@ -65,9 +88,9 @@ public class ReservationService {
         Reservation reservation = reservationRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Reservation not found"));
 
-        Property property = reservation.getProperty();
-        property.setStatus("available");
-        propertyRepository.save(property);
+//        Property property = reservation.getProperty();
+//        property.setStatus("available");
+//        propertyRepository.save(property);
 
         reservationRepository.delete(reservation);
     }

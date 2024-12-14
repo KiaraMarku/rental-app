@@ -35,7 +35,17 @@ public class RentController {
             Rent rent = rentService.createRent(dto);
             return ResponseEntity.ok(rent);
         } catch (RuntimeException e) {
-            return ResponseEntity.badRequest().body(Map.of("error", e.getMessage()));
+            return ResponseEntity.badRequest().body(Map.of("message", e.getMessage()));
+        }
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<?> updateRent(@PathVariable int id,@RequestBody RentDTO dto) {
+        try {
+            Rent rent = rentService.updateRent(id,dto);
+            return ResponseEntity.ok(rent);
+        } catch (RuntimeException e) {
+            return ResponseEntity.badRequest().body(Map.of("message", e.getMessage()));
         }
     }
 

@@ -1,9 +1,11 @@
 package com.example.rental.service;
 
 import com.example.rental.dto.RentDTO;
+import com.example.rental.dto.ReservationDTO;
 import com.example.rental.entety.Client;
 import com.example.rental.entety.Property;
 import com.example.rental.entety.Rent;
+import com.example.rental.entety.Reservation;
 import com.example.rental.repository.ClientRepository;
 import com.example.rental.repository.PropertyRepository;
 import com.example.rental.repository.RentRepository;
@@ -54,11 +56,11 @@ public class RentService {
         Client client = clientRepository.findById(dto.getClientId())
                 .orElseThrow(() -> new RuntimeException("Client not found"));
 
-        //delete reservation
-        if (property.getStatus().equals("reserved")) {
-            reservationRepository.findByPropertyId(property.getId())
-                    .ifPresent(reservationRepository::delete);
-        }
+//        //delete reservation
+//        if (property.getStatus().equals("reserved")) {
+//            reservationRepository.findByPropertyId(property.getId())
+//                    .ifPresent(reservationRepository::delete);
+//        }
 
         Rent rent = new Rent();
         rent.setProperty(property);
@@ -66,8 +68,30 @@ public class RentService {
         rent.setRentStart(dto.getRentStart());
         rent.setRentEnd(dto.getRentEnd());
 
-        property.setStatus("rented");
-        propertyRepository.save(property);
+//        property.setStatus("rented");
+//        propertyRepository.save(property);
+
+        return rentRepository.save(rent);
+    }
+
+
+    public Rent updateRent(int rentId, RentDTO dto ){
+        Rent rent=rentRepository.findById(rentId)
+                .orElseThrow(() -> new RuntimeException("Could not find rent"));
+
+        modelMapper.map(dto,rent);
+        Property property=propertyRepository.findById(dto.getPropertyId())
+                .orElseThrow(() -> new RuntimeException("Could not find property for reservation"));
+
+        if (!property.getStatus().equals("available")) {
+            throw new RuntimeException("Property is not available for reservation");
+        }
+
+
+
+        Client client=clientRepository.findById(dto.getClientId())
+                .orElseThrow(() -> new RuntimeException("Could not find client for reservation"));
+        rent.setClient(client);
 
         return rentRepository.save(rent);
     }

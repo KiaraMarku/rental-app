@@ -11,6 +11,6 @@ public class PropertyDTO {
     private String description;
     private BigDecimal rent;
     private Integer contractDuration;
-    private String imageUrl;
+    private String base64Image;
     private Integer agentId;
 }

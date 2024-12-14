@@ -1,10 +1,12 @@
 package com.example.rental.entety;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
+import java.util.Base64;
 import java.util.Set;
 
 @Entity
@@ -38,6 +40,12 @@ public class Property {
     @OneToOne(mappedBy = "property")
     private Reservation activeReservation;
 
-    @Column(name = "image_url")
-    private String imageUrl;
+    @Lob
+    @Column(columnDefinition = "LONGBLOB")
+    private byte[] image;
+
+    @JsonProperty("base64Image")
+    public String getBase64Image() {
+        return image != null ? Base64.getEncoder().encodeToString(image) : null;
+    }
 }

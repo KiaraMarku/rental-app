@@ -8,6 +8,7 @@ import com.example.rental.repository.PropertyRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
+import java.util.Base64;
 import java.util.List;
 
 @Service
@@ -37,8 +38,14 @@ public class PropertyService {
             .orElseThrow(() -> new RuntimeException("Agent not found"));
             
         Property property = modelMapper.map(dto, Property.class);
+
         property.setAgent(agent);
         property.setStatus("available");
+
+        if (dto.getBase64Image() != null) {
+            property.setImage(Base64.getDecoder().decode(dto.getBase64Image()));
+        }
+
         
         return propertyRepository.save(property);
     }
