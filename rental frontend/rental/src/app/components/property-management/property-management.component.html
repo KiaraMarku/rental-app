@@ -1,0 +1,119 @@
+<div class="container">
+
+    <div class="properties-list">
+        <h2>All Properties</h2>
+
+        @if (error) {
+        <div class="error-message">{{error}}</div>
+        }
+
+        <div class="properties-grid">
+            @for (property of properties; track property.id) {
+            <div class="property-card">
+                @if (property.base64Image) {
+                <img [src]="'data:image/jpeg;base64,' + property.base64Image" alt="Property">
+                }
+                <div class="property-info">
+                    <h3>{{property.address}}</h3>
+                    <p>{{property.description}}</p>
+                    <p class="rent">{{property.rent | currency}}</p>
+                    <p>Contract Duration: {{property.contractDuration}} months</p>
+                    <p>Agent: {{property.agent?.firstName}} {{property.agent?.lastName}}</p>
+                </div>
+                <div class="action-buttons">
+                    <button class="edit-btn" (click)="showEditModal(property)">Edit</button>
+                    <button class="delete-btn" (click)="showDeleteModal(property)">Delete</button>
+                </div>
+            </div>
+            }
+        </div>
+    </div>
+
+
+    <button class="add-button" (click)="showModal()">Add Property</button>
+
+    <!--Save Modal -->
+    <div class="modal" [class.show-modal]="isModalOpen">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>{{isEditing ? 'Edit' : 'Add New'}} Property</h2>
+                <button class="close-button" (click)="closeModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form [formGroup]="propertyForm" (ngSubmit)="onSubmit()">
+                    <div class="form-group">
+                        <label for="address">Address</label>
+                        <input id="address" type="text" formControlName="address">
+                        <div class="error" *ngIf="propertyForm.get('address')?.invalid && 
+                                            propertyForm.get('address')?.touched">
+                            Address is required
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="description">Description</label>
+                        <textarea id="description" formControlName="description"></textarea>
+                        <div class="error" *ngIf="propertyForm.get('description')?.invalid && 
+                                            propertyForm.get('description')?.touched">
+                            Description is required
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="rent">Rent</label>
+                        <input id="rent" type="number" formControlName="rent">
+                        <div class="error" *ngIf="propertyForm.get('rent')?.invalid && 
+                                            propertyForm.get('rent')?.touched">
+                            Valid rent amount is required
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="agent">Assign Agent</label>
+                        <select id="agent" formControlName="agentId">
+                            <option value="">Select Agent</option>
+                            @for (agent of agents; track agent.id) {
+                            <option [value]="agent.id">
+                                {{agent.firstName}} {{agent.lastName}}
+                            </option>
+                            }
+                        </select>
+                        <div class="error" *ngIf="propertyForm.get('agentId')?.invalid && 
+                                            propertyForm.get('agentId')?.touched">
+                            Agent selection is required
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="contractDuration">Contract Duration (months)</label>
+                        <input id="contractDuration" type="number" formControlName="contractDuration">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="image">Property Image</label>
+                        <input id="image" type="file" (change)="onFileSelected($event)" accept="image/*">
+                    </div>
+
+                    <button type="submit" [disabled]="propertyForm.invalid">Add Property</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Delete Confirmation Modal -->
+    <div class="modal" [class.show-modal]="isDeleteModalOpen">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Confirm Delete</h2>
+                <button class="close-button" (click)="closeDeleteModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to delete this property?</p>
+                <div class="modal-actions">
+                    <button class="cancel-btn" (click)="closeDeleteModal()">Cancel</button>
+                    <button class="delete-btn" (click)="confirmDelete()">Delete</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

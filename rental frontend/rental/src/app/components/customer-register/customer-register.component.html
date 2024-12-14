@@ -2,13 +2,9 @@
   <mat-card class="card">
 
     <div class="logo-container">
-      <img 
-        src="/logo.png" 
-        alt="Logo" 
-        class="logo"
-      />
+      <img src="/logo.png" alt="Logo" class="logo" />
     </div>
-    
+
     <mat-card-header class="center-content">
       <mat-card-title>Register as a Customer</mat-card-title>
       <mat-card-subtitle>If you are interested in renting our properties, please create an account to
@@ -22,7 +18,7 @@
             <mat-form-field appearance="fill">
               <mat-label>First Name</mat-label>
               <input matInput type="text" formControlName="firstName"
-            [class.error]="firstName?.invalid && firstName?.touched">
+                [class.error]="firstName?.invalid && firstName?.touched">
               <mat-error *ngIf="firstName?.invalid && firstName?.touched">
                 <span *ngIf="firstName?.errors?.['required']">First name is required</span>
               </mat-error>
@@ -30,7 +26,8 @@
 
             <mat-form-field appearance="fill">
               <mat-label>Last Name</mat-label>
-              <input matInput type="text" formControlName="lastName" [class.error]="lastName?.invalid && lastName?.touched">
+              <input matInput type="text" formControlName="lastName"
+                [class.error]="lastName?.invalid && lastName?.touched">
               <mat-error *ngIf="lastName?.invalid && lastName?.touched">
                 <span *ngIf="lastName?.errors?.['required']">Last name is required</span>
               </mat-error>
@@ -38,10 +35,8 @@
 
             <mat-form-field appearance="fill">
               <mat-label>Email</mat-label>
-              <input matInput type="email" formControlName="email" 
-                placeholder="example@gmail.com"
-                [class.error]="email?.invalid && email?.touched"
-              >
+              <input matInput type="email" formControlName="email" placeholder="example@gmail.com"
+                [class.error]="email?.invalid && email?.touched">
               <mat-error *ngIf="email?.invalid && email?.touched">
                 <span *ngIf="email?.errors?.['required']">Email is required</span>
                 <span *ngIf="email?.errors?.['email']">Please enter a valid email</span>
@@ -61,7 +56,8 @@
           <div class="right-column">
             <mat-form-field appearance="fill">
               <mat-label>Username</mat-label>
-              <input matInput type="text" formControlName="username" [class.error]="username?.invalid && username?.touched">
+              <input matInput type="text" formControlName="username"
+                [class.error]="username?.invalid && username?.touched">
               <mat-error *ngIf="username?.invalid && username?.touched">
                 <span *ngIf="username?.errors?.['required']">Username is required</span>
                 <span *ngIf="username?.errors?.['minlength']">Username must be at least 4 characters</span>
@@ -70,7 +66,8 @@
 
             <mat-form-field appearance="fill">
               <mat-label>Password</mat-label>
-              <input matInput type="password" formControlName="password" [class.error]="password?.invalid && password?.touched">
+              <input matInput type="password" formControlName="password"
+                [class.error]="password?.invalid && password?.touched">
               <mat-error *ngIf="password?.invalid && password?.touched">
                 <span *ngIf="password?.errors?.['required']">Password is required</span>
                 <span *ngIf="password?.errors?.['minlength']">Password must be at least 6 characters</span>
@@ -79,9 +76,10 @@
 
             <mat-form-field appearance="fill">
               <mat-label>Confirm Password</mat-label>
-              <input matInput type="password" formControlName="confirmPassword" [class.error]="confirmPassword?.invalid && confirmPassword?.touched">
+              <input matInput type="password" formControlName="confirmPassword"
+                [class.error]="confirmPassword?.invalid && confirmPassword?.touched">
               <mat-error *ngIf="confirmPassword?.invalid && confirmPassword?.touched">
-                <span *ngIf="confirmPassword?.errors?.['required']">Password confirmation is required</span>
+                <span *ngIf="confirmPassword?.errors?.['required']">Password confirmation is required.</span>
                 <span *ngIf="confirmPassword?.errors?.['passwordMismatch']">Passwords do not match</span>
               </mat-error>
             </mat-form-field>

@@ -56,10 +56,10 @@ public class PropertyController {
         }
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<?> updateProperty(@PathVariable Integer id, @RequestBody PropertyDTO dto) {
+    @PutMapping("")
+    public ResponseEntity<?> updateProperty( @RequestBody PropertyDTO dto) {
         try {
-            Property updated = propertyService.updateProperty(id, dto);
+            Property updated = propertyService.updateProperty( dto);
             return ResponseEntity.ok(updated);
         } catch (Exception e) {
             return ResponseEntity.badRequest()

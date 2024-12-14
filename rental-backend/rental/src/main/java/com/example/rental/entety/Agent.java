@@ -1,6 +1,7 @@
 package com.example.rental.entety;
 
 import com.example.rental.dto.UserDTO;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -24,6 +25,7 @@ public class Agent  {
     private String phone;
     private String email;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "agent")
     private List<Property> properties;
 }

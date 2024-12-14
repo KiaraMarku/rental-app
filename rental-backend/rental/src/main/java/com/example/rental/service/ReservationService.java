@@ -65,8 +65,8 @@ public class ReservationService {
         return reservationRepository.save(reservation);
     }
 
-    public Reservation updateReservation(int reservationId,ReservationDTO dto ){
-        Reservation reservation=reservationRepository.findById(reservationId)
+    public Reservation updateReservation(ReservationDTO dto ){
+        Reservation reservation=reservationRepository.findById(dto.getId())
                 .orElseThrow(() -> new RuntimeException("Could not find reservation"));
 
         modelMapper.map(dto,reservation);

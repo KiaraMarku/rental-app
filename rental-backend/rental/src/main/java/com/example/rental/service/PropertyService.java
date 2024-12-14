@@ -50,12 +50,18 @@ public class PropertyService {
         return propertyRepository.save(property);
     }
 
-    public Property updateProperty(Integer id, PropertyDTO dto) {
-        Property property = propertyRepository.findById(id)
+    public Property updateProperty( PropertyDTO dto) {
+        Property property = propertyRepository.findById(dto.getId())
             .orElseThrow(() -> new RuntimeException("Property not found"));
-            
-        modelMapper.map(dto, property);
-        
+
+        property.setAddress(dto.getAddress());
+        property.setDescription(dto.getDescription());
+        property.setRent(dto.getRent());
+        property.setContractDuration(dto.getContractDuration());
+        if (dto.getBase64Image() != null) {
+            property.setImage(Base64.getDecoder().decode(dto.getBase64Image()));
+        }
+
         if (dto.getAgentId() != null) {
             Agent agent = agentRepository.findById(dto.getAgentId())
                 .orElseThrow(() -> new RuntimeException("Agent not found"));

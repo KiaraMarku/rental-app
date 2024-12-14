@@ -39,10 +39,10 @@ public class RentController {
         }
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<?> updateRent(@PathVariable int id,@RequestBody RentDTO dto) {
+    @PutMapping()
+    public ResponseEntity<?> updateRent(@RequestBody RentDTO dto) {
         try {
-            Rent rent = rentService.updateRent(id,dto);
+            Rent rent = rentService.updateRent(dto);
             return ResponseEntity.ok(rent);
         } catch (RuntimeException e) {
             return ResponseEntity.badRequest().body(Map.of("message", e.getMessage()));

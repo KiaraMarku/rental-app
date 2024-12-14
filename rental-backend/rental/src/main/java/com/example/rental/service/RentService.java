@@ -75,8 +75,8 @@ public class RentService {
     }
 
 
-    public Rent updateRent(int rentId, RentDTO dto ){
-        Rent rent=rentRepository.findById(rentId)
+    public Rent updateRent( RentDTO dto ){
+        Rent rent=rentRepository.findById(dto.getId())
                 .orElseThrow(() -> new RuntimeException("Could not find rent"));
 
         modelMapper.map(dto,rent);

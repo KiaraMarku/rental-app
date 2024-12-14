@@ -24,7 +24,7 @@ export const routes: Routes = [
         canActivate: [AuthGuard],
         data: { roles: ['ROLE_ADMIN'] },
         children: [
-            {
+          {
             path: 'agent-register',
             loadComponent: () => import('./components/admin/agent-register/agent-register.component')
               .then(m => m.AgentRegisterComponent)
@@ -34,11 +34,11 @@ export const routes: Routes = [
           //   loadComponent: () => import('./components/admin/agent-management/agent-management.component')
           //     .then(m => m.AgentManagementComponent)
           // },
-          // {
-          //   path: 'properties',
-          //   loadComponent: () => import('./components/admin/property-management/property-management.component')
-          //     .then(m => m.PropertyManagementComponent)
-          // }
+          {
+            path: 'properties',
+            loadComponent: () => import('./components/property-management/property-management.component')
+              .then(m => m.PropertyManagementComponent)
+          }
         ]
       },
       {

@@ -39,10 +39,10 @@ public class ReservationController {
         }
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<?> updateReservation(@PathVariable int id,@RequestBody ReservationDTO dto) {
+    @PutMapping()
+    public ResponseEntity<?> updateReservation(@RequestBody ReservationDTO dto) {
         try {
-            Reservation reservation = reservationService.updateReservation(id,dto);
+            Reservation reservation = reservationService.updateReservation(dto);
             return ResponseEntity.ok(reservation);
         } catch (RuntimeException e) {
             return ResponseEntity.badRequest().body(Map.of("message", e.getMessage()));
