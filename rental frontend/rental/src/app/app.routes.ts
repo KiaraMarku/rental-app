@@ -29,11 +29,11 @@ export const routes: Routes = [
             loadComponent: () => import('./components/admin/agent-register/agent-register.component')
               .then(m => m.AgentRegisterComponent)
           },
-          // {
-          //   path: 'agents',
-          //   loadComponent: () => import('./components/admin/agent-management/agent-management.component')
-          //     .then(m => m.AgentManagementComponent)
-          // },
+          {
+            path: 'agents',
+            loadComponent: () => import('./components/admin/agent-management/agent-management.component')
+              .then(m => m.AgentManagementComponent)
+          },
           {
             path: 'properties',
             loadComponent: () => import('./components/property-management/property-management.component')

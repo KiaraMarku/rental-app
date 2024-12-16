@@ -1,7 +1,9 @@
 package com.example.rental.controller;
 
+import com.example.rental.dto.PropertyDTO;
 import com.example.rental.entety.Agent;
 import com.example.rental.entety.Client;
+import com.example.rental.entety.Property;
 import com.example.rental.service.AgentService;
 import com.example.rental.service.ClientService;
 import org.springframework.http.HttpStatus;
@@ -40,6 +42,17 @@ public class AgentController {
         }
         catch (RuntimeException e) {
             return ResponseEntity.badRequest().body(Map.of("message", e.getMessage()));
+        }
+    }
+
+    @PutMapping("")
+    public ResponseEntity<?> updateAgent( @RequestBody Agent agent) {
+        try {
+             agentService.updateAgent(agent);
+            return ResponseEntity.ok(Map.of("message", "Customer updated successfully"));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest()
+                    .body(Map.of("message", e.getMessage()));
         }
     }
 

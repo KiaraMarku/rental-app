@@ -1,0 +1,149 @@
+<mat-form-field>
+    <mat-label>Filter</mat-label>
+    <input matInput (keyup)="applyFilter($event)" placeholder="Ex. Mia" #input>
+</mat-form-field>
+<div class="mat-elevation-z8">
+    <table mat-table [dataSource]="dataSource">
+
+        <!-- Position Column -->
+        <ng-container matColumnDef="id">
+            <th mat-header-cell *matHeaderCellDef> Id. </th>
+            <td mat-cell *matCellDef="let element"> {{element.id}} </td>
+        </ng-container>
+
+
+        <ng-container matColumnDef="username">
+            <th mat-header-cell *matHeaderCellDef> Username </th>
+            <td mat-cell *matCellDef="let element"> {{element.username}} </td>
+        </ng-container>
+
+
+        <ng-container matColumnDef="firstName">
+            <th mat-header-cell *matHeaderCellDef> First Name </th>
+            <td mat-cell *matCellDef="let element"> {{element.firstName}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="lastName">
+            <th mat-header-cell *matHeaderCellDef> Last Name </th>
+            <td mat-cell *matCellDef="let element"> {{element.lastName}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="email">
+            <th mat-header-cell *matHeaderCellDef> Email </th>
+            <td mat-cell *matCellDef="let element"> {{element.email}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="phone">
+            <th mat-header-cell *matHeaderCellDef> Phone </th>
+            <td mat-cell *matCellDef="let element"> {{element.phone}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="actions">
+            <th mat-header-cell *matHeaderCellDef> Actions </th>
+            <td mat-cell *matCellDef="let element">
+                <button mat-raised-button class="edit-btn"
+                    (click)="showEditModal(element)"><mat-icon>create</mat-icon></button>
+                <button mat-raised-button class="delete-btn" (click)="showDeleteModal(element)">
+                    <mat-icon>delete_outline</mat-icon></button>
+            </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+
+    <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons aria-label="Select page of periodic elements">
+    </mat-paginator>
+
+    <div class="modal" [class.show-modal]="isDeleteModalOpen">
+        <mat-card>
+            <mat-card-header style="padding:0">
+                <mat-card-title>Confirm Delete</mat-card-title>
+                <mat-icon (click)="closeDeleteModal()">close</mat-icon>
+            </mat-card-header>
+            <div class="modal-body">
+                <p>Are you sure you want to delete this agent?</p>
+                <p>{{selectedAgent?.username}}</p>
+                <div class="modal-actions">
+                    <button mat-flat-button (click)="closeDeleteModal()">Cancel</button>
+                    <button mat-button (click)="confirmDelete()">Delete</button>
+                </div>
+            </div>
+        </mat-card>
+    </div>
+</div>
+
+
+
+
+
+
+
+<div class="modal" [class.show-modal]="isModalOpen">
+    <!-- HTML Template -->
+    <mat-card>
+
+        <mat-card-header>
+            <mat-card-title>{{isEditing ? 'Edit' : 'Add New'}} Property</mat-card-title>
+            <mat-icon (click)="closeModal()">close</mat-icon>
+        </mat-card-header>
+
+        <form [formGroup]="agentForm" (ngSubmit)="onSubmit()">
+            <div class="form-grid">
+                <div class="left-column">
+                    <mat-form-field appearance="fill">
+                        <mat-label>First Name</mat-label>
+                        <input matInput type="text" formControlName="firstName"
+                            [class.error]="firstName?.invalid && firstName?.touched">
+                        <mat-error *ngIf="firstName?.invalid && firstName?.touched">
+                            <span *ngIf="firstName?.errors?.['required']">First name is required</span>
+                        </mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field appearance="fill">
+                        <mat-label>Last Name</mat-label>
+                        <input matInput type="text" formControlName="lastName"
+                            [class.error]="lastName?.invalid && lastName?.touched">
+                        <mat-error *ngIf="lastName?.invalid && lastName?.touched">
+                            <span *ngIf="lastName?.errors?.['required']">Last name is required</span>
+                        </mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field appearance="fill">
+                        <mat-label>Email</mat-label>
+                        <input matInput type="email" formControlName="email" placeholder="example@gmail.com"
+                            [class.error]="email?.invalid && email?.touched">
+                        <mat-error *ngIf="email?.invalid && email?.touched">
+                            <span *ngIf="email?.errors?.['required']">Email is required</span>
+                            <span *ngIf="email?.errors?.['email']">Please enter a valid email</span>
+                        </mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field appearance="fill">
+                        <mat-label>Phone</mat-label>
+                        <input matInput type="tel" formControlName="phone"
+                            [class.error]="phone?.invalid && phone?.touched">
+                        <mat-icon matSuffix>phone</mat-icon>
+                        <mat-error *ngIf="phone?.invalid && phone?.touched">
+                            <span *ngIf="phone?.errors?.['required']">Phone number is required</span>
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+
+                <div class="right-column">
+                    <div class="submit-section">
+                        <button mat-raised-button color="primary" type="submit" [disabled]="agentForm.invalid">
+                            Edit User
+                        </button>
+
+                        <mat-error *ngIf="error" class="text-center">
+                            {{ error }}
+                        </mat-error>
+                    </div>
+                </div>
+            </div>
+        </form>
+
+
+    </mat-card>
+</div>

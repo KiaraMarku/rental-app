@@ -21,8 +21,10 @@
                     <p>Agent: {{property.agent?.firstName}} {{property.agent?.lastName}}</p>
                 </div>
                 <div class="action-buttons">
-                    <button class="edit-btn" (click)="showEditModal(property)">Edit</button>
-                    <button class="delete-btn" (click)="showDeleteModal(property)">Delete</button>
+                    <button mat-raised-button class="edit-btn"
+                        (click)="showEditModal(property)">Edit<mat-icon>create</mat-icon></button>
+                    <button mat-raised-button class="delete-btn" (click)="showDeleteModal(property)">Delete
+                        <mat-icon>delete_outline</mat-icon></button>
                 </div>
             </div>
             }
@@ -30,7 +32,8 @@
     </div>
 
 
-    <button class="add-button" (click)="showModal()">Add Property</button>
+    <button mat-raised-button class="add-button" color="primary" (click)="showModal()">Add Property
+        <mat-icon>add_circle_outline</mat-icon></button>
 
     <!--Save Modal -->
     <div class="modal" [class.show-modal]="isModalOpen">
@@ -106,7 +109,7 @@
 
                 <div class="actions">
                     <button mat-flat-button color="primary" type="submit" [disabled]="propertyForm.invalid">
-                        Add Property
+                        {{isEditing ? 'Edit' : 'Add'}} Property
                     </button>
                 </div>
             </form>

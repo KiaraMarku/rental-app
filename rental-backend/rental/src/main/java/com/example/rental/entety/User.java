@@ -2,6 +2,7 @@ package com.example.rental.entety;
 
 
 import com.example.rental.entety.Authority;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -22,6 +23,7 @@ public class User {
 
     private Boolean enabled;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "username",cascade = CascadeType.ALL)
     private List<Authority> authorities;
 

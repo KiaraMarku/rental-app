@@ -6,14 +6,14 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
-import { MatIconModule} from '@angular/material/icon';
+import { MatIconModule } from '@angular/material/icon';
 import { AuthService } from '../../../services/auth.service';
 
 
 @Component({
   selector: 'app-customer-register',
   standalone: true,
-    imports: [
+  imports: [
     CommonModule,
     ReactiveFormsModule,
     MatCardModule,
@@ -22,7 +22,7 @@ import { AuthService } from '../../../services/auth.service';
     MatButtonModule,
     MatIconModule
   ],
-  
+
   templateUrl: './agent-register.component.html',
   styleUrl: './agent-register.component.css'
 })
@@ -45,8 +45,8 @@ export class AgentRegisterComponent {
       lastName: ['', [Validators.required]],
       email: ['', [Validators.required, Validators.email]],
       phone: ['', [Validators.required]]
-    }, { 
-      validators: this.passwordMatchValidator 
+    }, {
+      validators: this.passwordMatchValidator
     });
   }
 
@@ -59,11 +59,11 @@ export class AgentRegisterComponent {
   get email() { return this.registerForm.get('email'); }
   get phone() { return this.registerForm.get('phone'); }
 
-  
+
   passwordMatchValidator(group: FormGroup) {
     const password = group.get('password')?.value;
     const confirmPassword = group.get('confirmPassword')?.value;
-    
+
     return password === confirmPassword ? null : { passwordMismatch: true };
   }
 
@@ -71,17 +71,17 @@ export class AgentRegisterComponent {
     if (this.registerForm.valid) {
       this.isLoading = true;
       this.error = '';
-      this.message='';
-      
+      this.message = '';
+
       const { confirmPassword, ...registrationData } = this.registerForm.value;
-      
+
       this.authService.registerAgent(registrationData).subscribe({
         next: () => {
-         this.message='Registation Successful';
-           this.isLoading = false;
+          this.message = 'Registation Successful';
+          this.isLoading = false;
         },
         error: (error) => {
-          console.log(error.error?.message )
+          console.log(error.error?.message)
           this.error = 'Registration failed. Please try again.';
           this.isLoading = false;
         }

@@ -84,6 +84,13 @@ public class UserRegistrationService {
         return user;
     }
 
+
+    public User getUserByUsername(String username){
+        return userRepository.findByUsername(username).
+                orElseThrow(() -> new RuntimeException("Username doesn't exists"));
+    }
+
+
 //    private boolean isCurrentUserAdmin() {
 //        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 //        return authentication.getAuthorities().stream()

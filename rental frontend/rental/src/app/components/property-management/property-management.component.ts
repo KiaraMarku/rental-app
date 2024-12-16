@@ -27,7 +27,8 @@ import { MatDividerModule } from '@angular/material/divider';
     MatOptionModule,
     MatIconModule,
     MatSelectModule,
-    MatDividerModule
+    MatDividerModule,
+    MatButtonModule
   ],
   templateUrl: './property-management.component.html',
   styleUrls: ['./property-management.component.css']

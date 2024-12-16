@@ -2,6 +2,8 @@ package com.example.rental.controller;
 
 
 import com.example.rental.dto.UserDTO;
+import com.example.rental.entety.Property;
+import com.example.rental.entety.User;
 import com.example.rental.security.JwtTokenProvider;
 import com.example.rental.service.UserRegistrationService;
 import org.springframework.http.ResponseEntity;
@@ -32,6 +34,16 @@ public class AuthController {
         this.tokenProvider = tokenProvider;
         this.registrationService=registrationService;
 
+    }
+
+    @GetMapping("/{username}") ResponseEntity<?> getUserByUserName(@PathVariable String username){
+        try {
+            User user= registrationService.getUserByUsername(username);
+            return ResponseEntity.ok(user);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest()
+                    .body(Map.of("message", e.getMessage()));
+        }
     }
 
     @PostMapping("/login")
