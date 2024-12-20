@@ -26,10 +26,11 @@ public class Client   {
     private String phone;
     private String email;
 
-
+    @JsonIgnore()
     @OneToMany(mappedBy = "client")
     private List<Rent> rents;
 
+    @JsonIgnore()
     @OneToMany(mappedBy = "client")
     private List<Reservation> reservations;
 }

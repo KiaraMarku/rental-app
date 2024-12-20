@@ -2,8 +2,10 @@ package com.example.rental.service;
 
 import com.example.rental.entety.Agent;
 import com.example.rental.entety.Client;
+import com.example.rental.entety.User;
 import com.example.rental.repository.AgentRepository;
 import com.example.rental.repository.ClientRepository;
+import com.example.rental.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -11,10 +13,12 @@ import java.util.List;
 @Service
 public class AgentService {
 
-    AgentRepository agentRepository;
+    private AgentRepository agentRepository;
+    private UserRepository userRepository;
 
-    public AgentService(AgentRepository agentRepository) {
+    public AgentService(AgentRepository agentRepository, UserRepository userRepository) {
         this.agentRepository = agentRepository;
+        this.userRepository = userRepository;
     }
 
     public List<Agent> getAllAgents(){
@@ -29,8 +33,13 @@ public class AgentService {
         agentRepository.save(agent);
     }
 
-    public void deleteAgent(Agent agent){
-        agentRepository.delete(agent);
+    public Agent getAgentByUsername(String userName){
+        return agentRepository.findByUsername(userName);
+    }
+    public void deleteAgent(Integer id){
+        Agent agent=agentRepository.findById(id).orElse(null);
+        agentRepository.deleteById(id);
+        userRepository.deleteById(agent.getUsername());
     }
 
 }

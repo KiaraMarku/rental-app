@@ -19,12 +19,10 @@ public class RentHistoryController {
     public RentHistoryController(RentHistoryService rentHistoryService) {
         this.rentHistoryService = rentHistoryService;
     }
-
     @GetMapping
     public ResponseEntity<List<RentHistory>> getAllRentHistory() {
         return ResponseEntity.ok(rentHistoryService.getAllRentHistory());
     }
-
     @GetMapping("/{id}")
     public ResponseEntity<RentHistory> getRentHistoryById(@PathVariable Integer id) {
         RentHistory rentHistory = rentHistoryService.getRentHistoryById(id);

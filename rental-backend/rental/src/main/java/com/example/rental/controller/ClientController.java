@@ -28,9 +28,13 @@ public class ClientController {
 
     @GetMapping("/{id}")
     public ResponseEntity<Client> getClient(@PathVariable int id){
-        return new ResponseEntity<>(clientService.getClientById(id), HttpStatus.FOUND);
+        return new ResponseEntity<>(clientService.getClientById(id), HttpStatus.OK);
     }
 
+    @GetMapping("/username/{username}")
+    public ResponseEntity<Client> getClientByUserName(@PathVariable String username){
+        return new ResponseEntity<>(clientService.getClientByUsername(username), HttpStatus.OK);
+    }
     @PostMapping()
     public ResponseEntity<?> updateClient( @RequestBody Client client) {
         try {
@@ -41,15 +45,16 @@ public class ClientController {
             return ResponseEntity.badRequest().body(Map.of("message", e.getMessage()));
         }
     }
-
-
-
-
-
-
-
-
-
-
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> deleteAgent(@PathVariable Integer id) {
+        try {
+            clientService.deleteClient(id);
+            return ResponseEntity.ok()
+                    .body(Map.of("message", "Client deleted successfully"));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest()
+                    .body(Map.of("message", e.getMessage()));
+        }
+    }
 
 }

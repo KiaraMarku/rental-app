@@ -15,6 +15,15 @@ export class PropertyService {
         return this.http.get<Property[]>(this.API_URL);
     }
 
+    getPropertiesByStatus(status: string): Observable<Property[]> {
+        return this.http.get<Property[]>(`${this.API_URL}/${status}`);
+    }
+
+    getPropertiesByAgent(agentId: number): Observable<Property[]> {
+        return this.http.get<Property[]>(`${this.API_URL}/agent/${agentId}`);
+    }
+
+
     getPropertyById(id: number): Observable<Property> {
         return this.http.get<Property>(`${this.API_URL}/${id}`);
     }

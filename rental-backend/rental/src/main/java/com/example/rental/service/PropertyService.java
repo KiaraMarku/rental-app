@@ -86,6 +86,12 @@ public class PropertyService {
     public List<Property> getAvailableProperties() {
         return propertyRepository.findByStatus("available");
     }
+    public List<Property> getReservedProperties() {
+        return propertyRepository.findByStatus("reserved");
+    }
+    public List<Property> getRentedProperties() {
+        return propertyRepository.findByStatus("rented");
+    }
 
     public List<Property> getPropertiesByAgent(Integer agentId) {
         return propertyRepository.findByAgentId(agentId);

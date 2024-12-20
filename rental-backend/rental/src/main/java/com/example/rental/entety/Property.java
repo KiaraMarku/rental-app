@@ -1,5 +1,6 @@
 package com.example.rental.entety;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.Data;
@@ -7,7 +8,7 @@ import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 import java.util.Base64;
-import java.util.Set;
+import java.util.List;
 
 @Entity
 @Table(name = "property")
@@ -31,14 +32,19 @@ public class Property {
     private Integer contractDuration;
 
     @ManyToOne
+
+
+
     @JoinColumn(name = "agent_id", insertable = false, updatable = false)
     private Agent agent;
 
-    @OneToOne(mappedBy = "property")
-    private Rent activeRent;
+    @JsonIgnore()
+    @OneToMany(mappedBy = "property")
+    private List<Rent> rents;
 
-    @OneToOne(mappedBy = "property")
-    private Reservation activeReservation;
+    @JsonIgnore()
+    @OneToMany(mappedBy = "property")
+    private List<Reservation> reservations;
 
     @Lob
     @Column(columnDefinition = "LONGBLOB")

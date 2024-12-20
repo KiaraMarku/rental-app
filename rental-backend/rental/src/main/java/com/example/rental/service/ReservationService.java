@@ -57,11 +57,9 @@ public class ReservationService {
         reservation.setProperty(property);
         reservation.setClient(client);
         reservation.setReservedAt(LocalDateTime.now());
-
-
-//        property.setStatus("reserved");
+        reservation.setExpiresAt(LocalDateTime.now().plusDays(3));
+ //        property.setStatus("reserved");
 //        propertyRepository.save(property);
-
         return reservationRepository.save(reservation);
     }
 
@@ -88,11 +86,14 @@ public class ReservationService {
         Reservation reservation = reservationRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Reservation not found"));
 
-//        Property property = reservation.getProperty();
+//       Property property = reservation.getProperty();
 //        property.setStatus("available");
 //        propertyRepository.save(property);
 
-        reservationRepository.delete(reservation);
+//        reservation.setProperty(null);
+//        reservation.setClient(null);
+
+        reservationRepository.deleteById(id);
     }
 
     public Reservation getReservationByPropertyId(Integer propertyId) {

@@ -36,7 +36,7 @@ export const routes: Routes = [
           },
           {
             path: 'properties',
-            loadComponent: () => import('./components/property-management/property-management.component')
+            loadComponent: () => import('./components/admin/property-management/property-management.component')
               .then(m => m.PropertyManagementComponent)
           }
         ]
@@ -46,16 +46,21 @@ export const routes: Routes = [
         canActivate: [AuthGuard],
         data: { roles: ['ROLE_AGENT'] },
         children: [
-          // {
-          //   path: 'properties',
-          //   loadComponent: () => import('./components/agent/agent-properties/agent-properties.component')
-          //     .then(m => m.AgentPropertiesComponent)
-          // },
-          // {
-          //   path: 'reservations',
-          //   loadComponent: () => import('./components/agent/agent-reservations/agent-reservations.component')
-          //     .then(m => m.AgentReservationsComponent)
-          // }
+          {
+            path: 'properties',
+            loadComponent: () => import('./components/agent/agent-properties/agent-properties.component')
+              .then(m => m.AgentPropertiesComponent)
+          },
+          {
+            path: 'reservations',
+            loadComponent: () => import('./components/agent/agent-reservations/agent-reservations.component')
+              .then(m => m.AgentReservationsComponent)
+          },
+          {
+            path: 'rents',
+            loadComponent: () => import('./components/agent/agent-rents/agent-rents.component')
+              .then(m => m.AgentRentsComponent)
+          }
         ]
       },
       {
@@ -63,16 +68,21 @@ export const routes: Routes = [
         canActivate: [AuthGuard],
         data: { roles: ['ROLE_CUSTOMER'] },
         children: [
-          // {
-          //   path: 'properties',
-          //   loadComponent: () => import('./components/customer/property-browse/property-browse.component')
-          //     .then(m => m.PropertyBrowseComponent)
-          // },
-          // {
-          //   path: 'reservations',
-          //   loadComponent: () => import('./components/customer/customer-reservations/customer-reservations.component')
-          //     .then(m => m.CustomerReservationsComponent)
-          // }
+          {
+            path: 'properties',
+            loadComponent: () => import('./components/customer/property-browse/property-browse.component')
+              .then(m => m.PropertyBrowseComponent)
+          },
+          {
+            path: 'reservations',
+            loadComponent: () => import('./components/customer/customer-reservations/customer-reservations.component')
+              .then(m => m.CustomerReservationsComponent)
+          },
+          {
+            path: 'rents',
+            loadComponent: () => import('./components/customer/customer-rents/customer-rents.component')
+              .then(m => m.CustomerRentsComponent)
+          }
         ]
       }
     ]

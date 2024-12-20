@@ -1,8 +1,10 @@
-import { Injectable, PLATFORM_ID, Inject } from '@angular/core';
+import { Injectable, PLATFORM_ID, Inject, signal } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { BehaviorSubject, Observable, tap } from 'rxjs';
 import { isPlatformBrowser } from '@angular/common';
 import { jwtDecode } from 'jwt-decode';
+import { Client } from '../model/client';
+import { Agent } from '../model/agent';
 
 
 interface DecodedToken {
@@ -26,11 +28,13 @@ export interface RegistrationData {
 })
 export class AuthService {
 
-   private readonly API_URL = 'http://localhost:8080/auth';
-   token=''
+  private readonly API_URL = 'http://localhost:8080/auth';
+  token = ''
   private currentUserSubject = new BehaviorSubject<any>(null);
+  private currentClientSubject = new BehaviorSubject<Client | null>(null);
+  private currentAgentSubject = new BehaviorSubject<Agent | null>(null);
 
-    constructor(
+  constructor(
     private http: HttpClient,
     @Inject(PLATFORM_ID) private platformId: Object
   ) {
@@ -39,17 +43,52 @@ export class AuthService {
       if (this.token) {
         const userInfo = this.decodeToken(this.token);
         this.currentUserSubject.next(userInfo);
+        // Load client info if user is a customer
+        if (userInfo && userInfo.role === 'ROLE_CUSTOMER') {
+          this.loadClientInfo(userInfo.username);
+        }
+        else if (userInfo && userInfo.role === 'ROLE_AGENT') {
+          this.loadAgentInfo(userInfo.username);
+        }
       }
     }
   }
 
+  private loadClientInfo(username: string) {
+    this.http.get<Client>('http://localhost:8080/api/clients/username/' + username)
+      .subscribe({
+        next: (client) => {
+          this.currentClientSubject.next(client);
+        },
+        error: (error) => console.error('Error loading client:', error)
+      });
+  }
 
-  public getToken(){
+  private loadAgentInfo(username: string) {
+    this.http.get<Agent>('http://localhost:8080/api/agents/username/' + username)
+      .subscribe({
+        next: (agent) => {
+          this.currentAgentSubject.next(agent);
+        },
+        error: (error) => console.error('Error loading agent:', error)
+      });
+  }
+
+  public getToken() {
     return this.token;
   }
 
-  public getUser(){
+  public getUser() {
     return this.currentUserSubject.value;
+  }
+
+  // Method to get current client value synchronously
+  getClientValue(): Client | null {
+    return this.currentClientSubject.value;
+  }
+
+  getAgentValue(): Agent | null {
+    return this.currentAgentSubject.value;
   }
 
   login(username: string, password: string): Observable<any> {
@@ -62,11 +101,13 @@ export class AuthService {
         localStorage.setItem('token', response.token);
         const userInfo = this.decodeToken(response.token);
         this.currentUserSubject.next(userInfo);
+        // Load client info if user is a customer
+        if (userInfo && userInfo.role === 'ROLE_CUSTOMER') {
+          this.loadClientInfo(userInfo.username);
+        }
       })
     );
   }
-
-
 
   private decodeToken(token: string): any {
     try {
@@ -84,7 +125,7 @@ export class AuthService {
   getUserRole(): string | null {
     const user = this.currentUserSubject.value;
     if (user?.role) {
-     
+
       if (user.role === 'ROLE_ADMIN') return 'admin';
       if (user.role === 'ROLE_AGENT') return 'agent';
       if (user.role === 'ROLE_CUSTOMER') return 'customer';
@@ -107,6 +148,7 @@ export class AuthService {
   logout(): void {
     localStorage.removeItem('token');
     this.currentUserSubject.next(null);
+    this.currentClientSubject.next(null);
   }
 
   registerCustomer(data: RegistrationData): Observable<any> {
@@ -116,6 +158,13 @@ export class AuthService {
   registerAgent(data: RegistrationData): Observable<any> {
     return this.http.post(`${this.API_URL}/register/agent`, data);
   }
+
+  getUserByUsername(username: String) {
+    return this.http.get(this.API_URL + "/" + username);
+
+  }
+
+
 
 
 }

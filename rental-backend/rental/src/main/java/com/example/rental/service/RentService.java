@@ -65,6 +65,7 @@ public class RentService {
         Rent rent = new Rent();
         rent.setProperty(property);
         rent.setClient(client);
+        rent.setPrice(dto.getPrice());
         rent.setRentStart(dto.getRentStart());
         rent.setRentEnd(dto.getRentEnd());
 

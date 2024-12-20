@@ -1,0 +1,68 @@
+<div class="reservations-grid">
+    @for (reservation of reservations; track reservation.id) {
+    <div class="reservation-card">
+        <img [src]="'data:image/jpeg;base64,' + reservation.property.base64Image" alt="Property">
+        <div class="reservation-info">
+            <h3>{{reservation.property.address}}</h3>
+            <p>{{reservation.property.description}}</p>
+            <p class="rent">{{reservation.property.rent | currency:'USD'}}</p>
+            <div class="client-info">
+                <p><strong>Client:</strong> {{reservation.client.firstName}} {{reservation.client.lastName}}</p>
+                <p><strong>Email:</strong> {{reservation.client.email}}</p>
+                <p><strong>Phone:</strong> {{reservation.client.phone}}</p>
+            </div>
+            <div class="reservation-dates">
+                <p><strong>Reserved:</strong> {{reservation.reservedAt | date}}</p>
+                <p><strong>Expires:</strong> {{reservation.expiresAt | date}}</p>
+            </div>
+            <div class="action-buttons">
+                <button mat-raised-button class="accept-btn" color="primary"
+                    (click)="showAcceptModal(reservation)">Accept</button>
+                <button mat-raised-button class="decline-btn" color="accent"
+                    (click)="showDeclineModal(reservation)">Decline</button>
+            </div>
+        </div>
+    </div>
+    }
+</div>
+
+
+<!-- Accept Modal -->
+<div class="modal" [class.show-modal]="isAcceptModalOpen">
+    <mat-card>
+        <mat-card-header style="padding:0">
+            <mat-card-title>Confirm Accept Reservation</mat-card-title>
+            <mat-icon (click)="closeAcceptModal()">close</mat-icon>
+        </mat-card-header>
+        <div class="modal-body">
+            <p>Are you sure you want to accept this reservation and create a rent?</p>
+            <p><strong>Property:</strong> {{selectedReservation?.property?.address}}</p>
+            <p><strong>Client:</strong> {{selectedReservation?.client?.firstName}}
+                {{selectedReservation?.client?.lastName}}</p>
+            <div class="modal-actions">
+                <button mat-raised-button (click)="closeAcceptModal()">Cancel</button>
+                <button mat-raised-button color="primary" (click)="acceptReservation() ">Accept</button>
+            </div>
+        </div>
+    </mat-card>
+</div>
+
+<!-- Decline Modal -->
+<div class="modal" [class.show-modal]="isDeclineModalOpen">
+    <mat-card>
+        <mat-card-header style="padding:0">
+            <mat-card-title>Confirm Decline Reservation</mat-card-title>
+            <mat-icon (click)="closeDeclineModal()">close</mat-icon>
+        </mat-card-header>
+        <div class="modal-body">
+            <p>Are you sure you want to decline this reservation?</p>
+            <p><strong>Property:</strong> {{selectedReservation?.property?.address}}</p>
+            <p><strong>Client:</strong> {{selectedReservation?.client?.firstName}}
+                {{selectedReservation?.client?.lastName}}</p>
+            <div class="modal-actions">
+                <button mat-raised-button (click)="closeDeclineModal()">Cancel</button>
+                <button mat-raised-button (click)="declineReservation()" color="accent">Decline</button>
+            </div>
+        </div>
+    </mat-card>
+</div>

@@ -17,10 +17,6 @@ public class RentHistory {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(name = "property_id")
-    private Integer propertyId;
-    @Column(name = "client_id")
-    private Integer clientId;
     @Column(name = "rent_start")
     private LocalDate rentStart;
     @Column(name = "rent_end")
@@ -31,10 +27,10 @@ public class RentHistory {
     private BigDecimal price;
 
     @OneToOne
-    @JoinColumn(name = "property_id", insertable = false, updatable = false)
+    @JoinColumn(name = "property_id")
     private Property property;
 
     @ManyToOne
-    @JoinColumn(name = "client_id", insertable = false, updatable = false)
+    @JoinColumn(name = "client_id")
     private Client client;
 }

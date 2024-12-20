@@ -25,13 +25,18 @@ public class AgentController {
     }
 
     @GetMapping()
-    public ResponseEntity<List<Agent>> getAllClients(){
+    public ResponseEntity<List<Agent>> getAllAgents(){
         return new ResponseEntity<>(agentService.getAllAgents(), HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Agent> getClient(@PathVariable int id){
+    public ResponseEntity<Agent> getAgent(@PathVariable int id){
         return new ResponseEntity<>(agentService.getAgentById(id), HttpStatus.FOUND);
+    }
+
+    @GetMapping("/username/{username}")
+    public ResponseEntity<Agent> getClientByUserName(@PathVariable String username){
+        return new ResponseEntity<>(agentService.getAgentByUsername(username), HttpStatus.OK);
     }
 
     @PostMapping()
@@ -50,6 +55,18 @@ public class AgentController {
         try {
              agentService.updateAgent(agent);
             return ResponseEntity.ok(Map.of("message", "Customer updated successfully"));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest()
+                    .body(Map.of("message", e.getMessage()));
+        }
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> deleteAgent(@PathVariable Integer id) {
+        try {
+            agentService.deleteAgent(id);
+            return ResponseEntity.ok()
+                    .body(Map.of("message", "Agent deleted successfully"));
         } catch (Exception e) {
             return ResponseEntity.badRequest()
                     .body(Map.of("message", e.getMessage()));

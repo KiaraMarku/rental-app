@@ -1,7 +1,5 @@
-<div class="sidebar">
-  <!-- <div class="logo">
-    <h2>Real Estate App</h2>
-  </div> -->
+<!-- <div class="sidebar">
+  
   <nav class="nav-menu">
     @for (item of menuItems; track item.route) {
     <a
@@ -16,5 +14,24 @@
   </nav>
   <div class="sidebar-footer">
     <button (click)="logout()" class="logout-btn">Logout</button>
+  </div>
+</div> -->
+
+<div class="sidebar mat-elevation-z1">
+  <mat-nav-list class="nav-menu">
+    @for (item of menuItems; track item.route) {
+    <a mat-list-item [routerLink]="item.route" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }"
+      class="nav-link">
+      <mat-icon matListItemIcon class="outlined-icon">{{item.icon}}</mat-icon>
+      <span class="nav-text">{{item.label}}</span>
+    </a>
+    }
+  </mat-nav-list>
+
+  <div class="sidebar-footer">
+    <button mat-flat-button size="large" color="secondary" (click)="logout()">
+      <mat-icon>logout</mat-icon>
+      Logout
+    </button>
   </div>
 </div>

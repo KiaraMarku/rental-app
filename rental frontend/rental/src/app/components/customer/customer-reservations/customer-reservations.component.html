@@ -1,0 +1,39 @@
+<div class="reservations-grid">
+    @for (reservation of reservations; track reservation.id) {
+    <div class="reservation-card">
+        @if (reservation.property.base64Image) {
+        <img [src]="'data:image/jpeg;base64,' + reservation.property.base64Image" alt="Property">
+        }
+        <div class="reservation-info">
+            <h3>{{reservation.property.address}}</h3>
+            <p>{{reservation.property.description}}</p>
+            <p class="rent">{{reservation.property.rent | currency}}</p>
+            <div class="reservation-dates">
+                <p><strong>Reserved:</strong> {{reservation.reservedAt | date}}</p>
+                <p><strong>Expires:</strong> {{reservation.expiresAt | date}}</p>
+            </div>
+            <button mat-raised-button class="cancel-btn" (click)="showReserveModal(reservation)">
+                Cancel Reservation
+            </button>
+        </div>
+    </div>
+    }
+</div>
+
+
+<div class="modal" [class.show-modal]="isReserveModalOpen">
+    <mat-card>
+        <mat-card-header style="padding:0">
+            <mat-card-title>Confirm Reserve</mat-card-title>
+            <mat-icon (click)="closeReserveModal()">close</mat-icon>
+        </mat-card-header>
+        <div class="modal-body">
+            <p>Are you sure you want to cancel this reservation?
+            </p>
+            <div class="modal-actions">
+                <button mat-raised-button (click)="closeReserveModal()">No</button>
+                <button color="primary" mat-raised-button (click)="cancelReservation() ">Yes</button>
+            </div>
+        </div>
+    </mat-card>
+</div>

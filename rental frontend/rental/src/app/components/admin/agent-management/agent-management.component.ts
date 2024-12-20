@@ -12,8 +12,6 @@ import { AuthService } from '../../../services/auth.service';
 import { NgIf } from '@angular/common';
 
 
-
-
 @Component({
   selector: 'app-agent-management',
   standalone: true,
@@ -67,7 +65,6 @@ export class AgentManagementComponent implements OnInit {
   }
   @ViewChild(MatPaginator)
   public paginator!: MatPaginator;
-
 
 
   loadAgents() {
@@ -139,8 +136,6 @@ export class AgentManagementComponent implements OnInit {
   onSubmit() {
     if (this.agentForm.valid) {
       const agentData = this.agentForm.value;
-
-
       agentData.id = this.selectedAgent!.id;
       this.agentService.updateAgent(agentData).subscribe({
         next: () => {
@@ -150,7 +145,8 @@ export class AgentManagementComponent implements OnInit {
         error: (error) => this.error = error.error?.message || 'Failed to update agent'
       });
     }
-
   }
+
+
 }
 

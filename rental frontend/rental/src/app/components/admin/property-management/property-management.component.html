@@ -1,0 +1,170 @@
+<div class="container">
+    <h3>Filter properties</h3>
+    <div class="filter">
+        <section>
+            <mat-button-toggle-group name="status" aria-label="Property Status"
+                [hideSingleSelectionIndicator]="hideSingleSelectionIndicator()" (change)="onStatusChange($event)"
+                #toggleGroup="matButtonToggleGroup" [(value)]="selectedStatus">
+                <mat-button-toggle value="all">All</mat-button-toggle>
+                <mat-button-toggle value="available">Available</mat-button-toggle>
+                <mat-button-toggle value="reserved">Reserved</mat-button-toggle>
+                <mat-button-toggle value="rented">Rented</mat-button-toggle>
+            </mat-button-toggle-group>
+
+        </section>
+
+        <mat-form-field>
+            <mat-label>Select Agent</mat-label>
+            <mat-select (selectionChange)="onAgentChange($event)">
+                @for (agent of agents; track agent) {
+                <mat-option [value]="agent.id">{{agent.firstName}} {{agent.lastName}}</mat-option>
+                }
+            </mat-select>
+        </mat-form-field>
+
+
+    </div>
+
+    <div class="properties-list">
+        <h2>{{selectedStatus| titlecase}} Properties</h2>
+
+        @if (error) {
+        <div class="error-message">{{error}}</div>
+        }
+
+        <div class="properties-grid">
+            @for (property of paginatedProperties; track property.id) {
+            <div class="property-card">
+                @if (property.base64Image) {
+                <img [src]="'data:image/jpeg;base64,' + property.base64Image" alt="Property">
+                }
+                <div class="property-info">
+                    <h3>{{property.address}}</h3>
+                    <p>{{property.description}}</p>
+                    <p class="rent">{{property.rent | currency}}</p>
+                    <p>Contract Duration: {{property.contractDuration}} months</p>
+                    <p>Agent: {{property.agent?.firstName}} {{property.agent?.lastName}}</p>
+                </div>
+
+                <div class="action-buttons">
+                    <button mat-raised-button class="edit-btn"
+                        (click)="showEditModal(property)">Edit<mat-icon>create</mat-icon></button>
+                    <button mat-raised-button class="delete-btn" (click)="showDeleteModal(property)">Delete
+                        <mat-icon>delete_outline</mat-icon></button>
+                </div>
+
+
+            </div>
+            }
+        </div>
+
+        <mat-paginator [length]="properties.length" [pageSize]="pageSize" [pageIndex]="currentPage"
+            [pageSizeOptions]="[6, 12, 24, 48]" (page)="onPageChange($event)" class="mat-mdc-elevation-z8"
+            aria-label="Select page">
+        </mat-paginator>
+
+    </div>
+
+
+    <button mat-raised-button class="add-button" color="primary" (click)="showModal()">Add Property
+        <mat-icon>add_circle_outline</mat-icon></button>
+
+    <!--Save Modal -->
+    <div class="modal" [class.show-modal]="isModalOpen">
+        <!-- HTML Template -->
+        <mat-card>
+
+            <mat-card-header>
+                <mat-card-title>{{isEditing ? 'Edit' : 'Add New'}} Property</mat-card-title>
+                <mat-icon (click)="closeModal()">close</mat-icon>
+            </mat-card-header>
+
+            <form [formGroup]="propertyForm" (ngSubmit)="onSubmit()">
+                <div class="form-container">
+                    <!-- Column 1 -->
+                    <div class="form-column">
+                        <mat-form-field>
+                            <mat-label>Address</mat-label>
+                            <input matInput id="address" type="text" formControlName="address">
+                            <mat-error
+                                *ngIf="propertyForm.get('address')?.invalid && propertyForm.get('address')?.touched">
+                                Address is required
+                            </mat-error>
+                        </mat-form-field>
+
+                        <mat-form-field>
+                            <mat-label>Rent</mat-label>
+                            <input matInput id="rent" type="number" formControlName="rent">
+                            <mat-error *ngIf="propertyForm.get('rent')?.invalid && propertyForm.get('rent')?.touched">
+                                Valid rent amount is required
+                            </mat-error>
+                        </mat-form-field>
+
+                        <mat-form-field class="biginput">
+                            <mat-label>Description</mat-label>
+                            <textarea matInput id="description" formControlName="description"></textarea>
+                            <mat-error
+                                *ngIf="propertyForm.get('description')?.invalid && propertyForm.get('description')?.touched">
+                                Description is required
+                            </mat-error>
+                        </mat-form-field>
+
+                    </div>
+
+                    <!-- Column 2 -->
+                    <div class="form-column">
+                        <mat-form-field>
+                            <mat-label>Assign Agent</mat-label>
+                            <mat-select id="agent" formControlName="agentId">
+                                <mat-option value="">Select Agent</mat-option>
+                                @for (agent of agents; track agent.id) {
+                                <mat-option [value]="agent.id">
+                                    {{agent.firstName}} {{agent.lastName}}
+                                </mat-option>
+                                }
+                            </mat-select>
+                            <mat-error
+                                *ngIf="propertyForm.get('agentId')?.invalid && propertyForm.get('agentId')?.touched">
+                                Agent selection is required
+                            </mat-error>
+                        </mat-form-field>
+
+                        <mat-form-field>
+                            <mat-label>Contract Duration (months)</mat-label>
+                            <input matInput id="contractDuration" type="number" formControlName="contractDuration">
+                        </mat-form-field>
+
+                        <div class="form-group">
+                            <mat-label>Property Image</mat-label>
+                            <input id="image" type="file" (change)="onFileSelected($event)" accept="image/*">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="actions">
+                    <button mat-flat-button color="primary" type="submit" [disabled]="propertyForm.invalid">
+                        {{isEditing ? 'Edit' : 'Add'}} Property
+                    </button>
+                </div>
+            </form>
+        </mat-card>
+    </div>
+
+
+    <!-- Delete Confirmation Modal -->
+    <div class="modal" [class.show-modal]="isDeleteModalOpen">
+        <mat-card>
+            <mat-card-header style="padding:0">
+                <mat-card-title>Confirm Delete</mat-card-title>
+                <mat-icon (click)="closeDeleteModal()">close</mat-icon>
+            </mat-card-header>
+            <div class="modal-body">
+                <p>Are you sure you want to delete this property?</p>
+                <div class="modal-actions">
+                    <button mat-flat-button (click)="closeDeleteModal()">Cancel</button>
+                    <button mat-button (click)="confirmDelete()">Delete</button>
+                </div>
+            </div>
+        </mat-card>
+    </div>
+</div>

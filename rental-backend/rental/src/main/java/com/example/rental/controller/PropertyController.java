@@ -13,7 +13,6 @@ import java.util.Map;
 @RequestMapping("/api/properties")
 public class PropertyController {
 
-
     private PropertyService propertyService;
 
     public PropertyController(PropertyService propertyService) {
@@ -86,7 +85,30 @@ public class PropertyController {
             return ResponseEntity.ok(properties);
         } catch (Exception e) {
             return ResponseEntity.badRequest()
-                .body(Map.of("message", e.getMessage()));
+                    .body(Map.of("message", e.getMessage()));
+        }
+    }
+
+
+    @GetMapping("/reserved")
+    public ResponseEntity<?> getReservedProperties() {
+        try {
+            List<Property> properties = propertyService.getReservedProperties();
+            return ResponseEntity.ok(properties);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest()
+                    .body(Map.of("message", e.getMessage()));
+        }
+    }
+
+    @GetMapping("/rented")
+    public ResponseEntity<?> getRentedProperties() {
+        try {
+            List<Property> properties = propertyService.getRentedProperties();
+            return ResponseEntity.ok(properties);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest()
+                    .body(Map.of("message", e.getMessage()));
         }
     }
 }
