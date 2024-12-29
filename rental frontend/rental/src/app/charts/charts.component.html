@@ -1,0 +1,13 @@
+<div class="analytics-container">
+    <div class="chart-container">
+        <h2>Property Status Distribution</h2>
+        <canvas baseChart [data]="pieChartData" [type]="'doughnut'" [options]="pieChartOptions">
+        </canvas>
+    </div>
+
+    <div class="chart-container">
+        <h2>Agent Property Distribution</h2>
+        <canvas baseChart [data]="barChartData" [type]="barChartType" [options]="barChartOptions">
+        </canvas>
+    </div>
+</div>

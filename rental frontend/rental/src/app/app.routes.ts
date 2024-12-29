@@ -2,6 +2,7 @@
 import { Routes } from '@angular/router';
 import { AuthGuard } from './auth/auth.guard';
 import { DashboardLayoutComponent } from './components/dashboard-layout/dashboard-layout.component';
+import { ChartsComponent } from './charts/charts.component';
 
 export const routes: Routes = [
   {
@@ -92,4 +93,6 @@ export const routes: Routes = [
     redirectTo: '/login',
     pathMatch: 'full'
   }
+,
+  { path: 'analytics', component: ChartsComponent }
 ];
