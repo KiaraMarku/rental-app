@@ -135,8 +135,10 @@ export class AgentManagementComponent implements OnInit {
 
   onSubmit() {
     if (this.agentForm.valid) {
-      const agentData = this.agentForm.value;
-      agentData.id = this.selectedAgent!.id;
+      const agentData: Agent = this.agentForm.value;
+      if (this.selectedAgent) {
+        agentData.id = this.selectedAgent.id;
+      }
       this.agentService.updateAgent(agentData).subscribe({
         next: () => {
           this.loadAgents();

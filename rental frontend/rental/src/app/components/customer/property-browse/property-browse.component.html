@@ -1,55 +1,61 @@
-<div class="properties-list">
+<div class="container">
+    <div class="properties-list">
+        @if (error) {
+        <div class="error-message">{{error}}</div>
+        }
+        <form class="example-form">
+            <mat-form-field class="example-full-width">
+                <mat-label>Search by address</mat-label>
+                <input matInput type="text" [(ngModel)]="searchText" name="searchText">
+                <mat-icon matSuffix>search</mat-icon>
+            </mat-form-field>
+        </form>
 
+        @if(properties.length > 0) {
+        <div class="properties-grid">
+            @for (property of paginatedProperties| propertyFilter:searchText; track property.id) {
+            <div class="property-card">
+                @if (property.base64Image) {
+                <img [src]="'data:image/jpeg;base64,' + property.base64Image" alt="Property">
+                }
+                <div class="property-info">
+                    <h3>{{property.address}}</h3>
+                    <p>{{property.description}}</p>
+                    <p class="rent">{{property.rent | currency}}</p>
+                    <p>Contract Duration: {{property.contractDuration}} months</p>
+                    <p>Agent: {{property.agent?.firstName}} {{property.agent?.lastName}}</p>
+                </div>
+                <div class="action-buttons">
 
-    @if (error) {
-    <div class="error-message">{{error}}</div>
-    }
-
-    <div class="properties-grid">
-        @for (property of paginatedProperties; track property.id) {
-        <div class="property-card">
-            @if (property.base64Image) {
-            <img [src]="'data:image/jpeg;base64,' + property.base64Image" alt="Property">
+                    <button mat-raised-button class="reserve-btn" (click)="showReserveModal(property)">Reserve
+                        <mat-icon>schedule</mat-icon>
+                    </button>
+                </div>
+            </div>
             }
-            <div class="property-info">
-                <h3>{{property.address}}</h3>
-                <p>{{property.description}}</p>
-                <p class="rent">{{property.rent | currency}}</p>
-                <p>Contract Duration: {{property.contractDuration}} months</p>
-                <p>Agent: {{property.agent?.firstName}} {{property.agent?.lastName}}</p>
-            </div>
-            <div class="action-buttons">
-
-                <button mat-raised-button class="reserve-btn" (click)="showReserveModal(property)">Reserve
-                    <mat-icon>schedule</mat-icon>
-                </button>
-            </div>
         </div>
+
+        <mat-paginator [length]="properties.length" [pageSize]="pageSize" [pageIndex]="currentPage"
+            [pageSizeOptions]="[6, 12, 24, 48]" (page)="onPageChange($event)" class="mat-mdc-elevation-z8"
+            aria-label="Select page">
+        </mat-paginator>
         }
     </div>
-
-    <mat-paginator [length]="properties.length" [pageSize]="pageSize" [pageIndex]="currentPage"
-        [pageSizeOptions]="[6, 12, 24, 48]" (page)="onPageChange($event)" class="mat-mdc-elevation-z8"
-        aria-label="Select page">
-    </mat-paginator>
-
-</div>
-
-
-<div class="modal" [class.show-modal]="isReserveModalOpen">
-    <mat-card>
-        <mat-card-header style="padding:0">
-            <mat-card-title>Confirm Reserve</mat-card-title>
-            <mat-icon (click)="closeReserveModal()">close</mat-icon>
-        </mat-card-header>
-        <div class="modal-body">
-            <p>Are you sure you want to reserve this property?
-            </p>
-            <p>Reservation expires in 3 days</p>
-            <div class="modal-actions">
-                <button mat-raised-button (click)="closeReserveModal()">Cancel</button>
-                <button mat-raised-button class="confirm-button" (click)="confirmReserve()">Reserve</button>
+    <div class="modal" [class.show-modal]="isReserveModalOpen">
+        <mat-card>
+            <mat-card-header style="padding:0">
+                <mat-card-title>Confirm Reserve</mat-card-title>
+                <mat-icon (click)="closeReserveModal()">close</mat-icon>
+            </mat-card-header>
+            <div class="modal-body">
+                <p>Are you sure you want to reserve this property?
+                </p>
+                <p>Reservation expires in 3 days</p>
+                <div class="modal-actions">
+                    <button mat-raised-button (click)="closeReserveModal()">Cancel</button>
+                    <button mat-raised-button class="confirm-button" (click)="confirmReserve()">Reserve</button>
+                </div>
             </div>
-        </div>
-    </mat-card>
+        </mat-card>
+    </div>
 </div>

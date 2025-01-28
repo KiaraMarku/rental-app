@@ -46,7 +46,7 @@ public class ClientController {
         }
     }
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleteAgent(@PathVariable Integer id) {
+    public ResponseEntity<?> deleteClient(@PathVariable Integer id) {
         try {
             clientService.deleteClient(id);
             return ResponseEntity.ok()
@@ -56,5 +56,32 @@ public class ClientController {
                     .body(Map.of("message", e.getMessage()));
         }
     }
+    
+    
+    @GetMapping("rent/agent/{agentId}")
+    public ResponseEntity<List<Client>> getRentClientsByAgent(@PathVariable int agentId) {
+        try {
+            List<Client> clients = clientService.getRentClientsByAgentId(agentId);
+            return new ResponseEntity<>(clients, HttpStatus.OK);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest()
+                    .body(null);
+        }
+    }
+
+    @GetMapping("reservation/agent/{agentId}")
+    public ResponseEntity<List<Client>> getReservationClientsByAgent(@PathVariable int agentId) {
+        try {
+            List<Client> clients = clientService.getReservationClientsByAgentId(agentId);
+            return new ResponseEntity<>(clients, HttpStatus.OK);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest()
+                    .body(null);
+        }
+    }
+
+
+
+
 
 }

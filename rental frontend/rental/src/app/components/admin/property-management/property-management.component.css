@@ -1,7 +1,3 @@
-.container {
-    padding: 20px;
-}
-
 .add-property-form {
     max-width: 800px;
     margin-bottom: 40px;
@@ -199,7 +195,6 @@ mat-card-header mat-icon:hover {
     gap: 100px;
 }
 
-
 mat-form-field {
     min-width: 200px;
 }
@@ -208,7 +203,6 @@ mat-paginator {
     margin: 20px auto;
     width: max-content;
 }
-
 
 @media (max-width: 768px) {
     mat-card {

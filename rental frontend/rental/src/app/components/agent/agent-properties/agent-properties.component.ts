@@ -17,6 +17,8 @@ import { PropertyService } from '../../../services/property.service';
 import { AgentService } from '../../../services/agent.service';
 import { AuthService } from '../../../services/auth.service';
 import { Agent } from '../../../model/agent';
+import { Client } from '../../../model/client';
+import { PropertyFilterPipe } from '../../../property-filter.pipe';
 
 @Component({
   selector: 'app-agent-properties',
@@ -35,7 +37,8 @@ import { Agent } from '../../../model/agent';
     MatDividerModule,
     MatPaginatorModule,
     MatButtonToggle,
-    MatButtonToggleGroup
+    MatButtonToggleGroup,
+    PropertyFilterPipe
   ],
   templateUrl: './agent-properties.component.html',
   styleUrl: './agent-properties.component.css'
@@ -45,6 +48,7 @@ export class AgentPropertiesComponent {
 
 
   properties: Property[] = [];
+
   error = '';
   isModalOpen = false;
   isDeleteModalOpen = false;
@@ -53,6 +57,7 @@ export class AgentPropertiesComponent {
 
   selectedProperty: Property | null = null;
   selectedStatus = '';
+  searchText = '';
 
 
   //For pagination
@@ -90,12 +95,51 @@ export class AgentPropertiesComponent {
 
   }
 
-
-
-
-
   toggleSingleSelectionIndicator() {
     this.hideSingleSelectionIndicator.update(value => !value);
+  }
+
+  onStatusChange(event: MatButtonToggleChange) {
+    this.selectedStatus = event.value;
+    console.log('Selected status:', this.selectedStatus);
+    if (this.selectedStatus == 'all') {
+      this.loadPropertiesForAgent(this.agent?.id!);
+    }
+    else this.loadPropertiesByStatus(this.selectedStatus);
+
+  }
+
+
+  loadPropertiesByStatus(status: string) {
+    this.propertyService.getPropertiesByStatus(status).subscribe({
+      next: (data) => {
+        this.properties = data.filter(p => p.agent?.id === this.agent?.id);
+        this.currentPage = 0;  // 
+        this.updatePage();
+      },
+      error:
+        (error) => {
+          this.error = 'Failed to load properties';
+          console.log(error);
+        }
+
+    });
+  }
+
+
+  loadPropertiesByAgent(agnetId: number) {
+    this.propertyService.getPropertiesByAgent(agnetId).subscribe({
+      next: (data) => {
+        this.properties = data;
+        this.currentPage = 0;  // 
+        this.updatePage();
+      },
+      error:
+        (error) => {
+          this.error = 'Failed to load properties';
+          console.log(error);
+        }
+    });
   }
 
 
@@ -108,7 +152,11 @@ export class AgentPropertiesComponent {
         this.currentPage = 0;  // 
         this.updatePage();
       },
-      error: (error) => this.error = error.error?.message || 'Failed to load properties'
+      error:
+        (error) => {
+          this.error = 'Failed to load properties';
+          console.log(error);
+        }
     });
   }
 
@@ -190,7 +238,11 @@ export class AgentPropertiesComponent {
             }
             this.closeModal();
           },
-          error: (error) => this.error = error.error?.message || 'Failed to add property'
+          error:
+            (error) => {
+              this.error = 'Failed to load properties';
+              console.log(error);
+            }
         });
       }
     }

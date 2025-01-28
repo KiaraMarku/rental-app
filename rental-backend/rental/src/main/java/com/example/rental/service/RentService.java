@@ -14,6 +14,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class RentService {
@@ -104,6 +105,12 @@ public class RentService {
 
     public List<Rent> getRentsByClientId(Integer clientId) {
         return rentRepository.findByClientId(clientId);
+    }
+
+    public List<Rent> getRentsByClientIdAndAgentId(Integer clientId, Integer agentId) {
+        return rentRepository.findByClientId(clientId).stream()
+                .filter(rent -> rent.getProperty().getAgent().getId().equals(agentId))
+                .collect(Collectors.toList());
     }
 }
 

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, signal, ViewChild } from '@angular/core';
 import { ReservationService } from '../../../services/reservation.service';
 import { AuthService } from '../../../services/auth.service';
 import { Reservation, ReservationRes } from '../../../model/reservation';
@@ -8,6 +8,11 @@ import { DatePipe } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
+import { MatFormField, MatLabel } from '@angular/material/form-field';
+import { MatInput } from '@angular/material/input';
+import { MatOption, MatSelect, MatSelectChange } from '@angular/material/select';
+import { Client } from '../../../model/client';
+import { MatButtonToggleGroup } from '@angular/material/button-toggle';
 
 @Component({
   selector: 'app-agent-reservations',
@@ -18,26 +23,39 @@ import { MatIconModule } from '@angular/material/icon';
     CommonModule,
     MatCardModule,
     MatIconModule,
-    MatButtonModule],
+    MatButtonModule,
+    MatFormField,
+    MatSelect,
+    MatLabel,
+    MatOption],
   templateUrl: './agent-reservations.component.html',
   styleUrl: './agent-reservations.component.css'
 })
+
 export class AgentReservationsComponent {
   reservations: ReservationRes[] = [];
   selectedReservation: ReservationRes | null = null;
   isAcceptModalOpen = false;
   isDeclineModalOpen = false;
+  clients: Client[] = [];
+  selectedClientId: number | null = null;
   agent = this.authService.getAgentValue();
+
+
+
+  hideSingleSelectionIndicator = signal(false);
 
   constructor(
     private reservationService: ReservationService,
     private rentService: RentService,
     private authService: AuthService
-  ) { }
+  ) {
+
+  }
 
   ngOnInit() {
-
     this.loadReservations();
+    this.loadClients();
   }
 
   loadReservations() {
@@ -47,6 +65,30 @@ export class AgentReservationsComponent {
       error: (error) => console.error('Error:', error)
     });
   }
+
+  loadClients() {
+    const agentId = this.agent!.id;
+    console.log("Loading clients" + agentId)
+    this.reservationService.getReservationClientsByAgent(agentId!).subscribe({
+      next: (data) => this.clients = data,
+      error: (error) => console.error('Error:', error)
+    });
+  }
+
+  loadPropertiesByClient(clientId: number) {
+    this.reservationService.getAgentReservationsByClient(this.agent?.id!, clientId).subscribe({
+      next: (data) => this.reservations = data,
+      error: (error) => console.error('Error:', error)
+    });
+  }
+
+  onClientChange(event: MatSelectChange) {
+    this.selectedClientId = event.value;
+    console.log(this.selectedClientId);
+    this.loadPropertiesByClient(this.selectedClientId!);
+  }
+
+
   showAcceptModal(reservation: ReservationRes) {
     this.selectedReservation = reservation;
     this.isAcceptModalOpen = true;

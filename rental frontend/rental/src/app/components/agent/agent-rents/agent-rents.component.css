@@ -21,3 +21,14 @@
   .rent-info {
       padding: 15px;
   }
+
+  .filter {
+      display: flex;
+      align-items: center;
+      gap: 100px;
+  }
+
+
+  mat-form-field {
+      min-width: 200px;
+  }

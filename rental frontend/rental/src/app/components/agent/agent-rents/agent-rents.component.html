@@ -1,21 +1,35 @@
-<div class="rents-grid">
-    @for (rent of rents; track rent.id) {
-    <div class="rent-card">
-        <img [src]="'data:image/jpeg;base64,' + rent.property.base64Image" alt="Property">
-        <div class="rent-info">
-            <h3>{{rent.property.address}}</h3>
-            <p>{{rent.property.description}}</p>
-            <p class="rent">{{rent.property.rent | currency:'USD'}}</p>
-            <div class="client-info">
-                <p><strong>Client:</strong> {{rent.client.firstName}} {{rent.client.lastName}}</p>
-                <p><strong>Email:</strong> {{rent.client.email}}</p>
-                <p><strong>Phone:</strong> {{rent.client.phone}}</p>
-            </div>
-            <div class="rent-dates">
-                <p><strong>Reserved:</strong> {{rent.rentStart | date}}</p>
-                <p><strong>Expires:</strong> {{rent.rentEnd | date}}</p>
+<div class="container">
+    <h2>Rents</h2>
+    <div class="filter">
+        <mat-form-field>
+            <mat-label>Select Client</mat-label>
+            <mat-select (selectionChange)="onClientChange($event)">
+                @for (client of clients; track client.id) {
+                <mat-option [value]="client.id">{{client.firstName}} {{client.lastName}}</mat-option>
+                }
+            </mat-select>
+        </mat-form-field>
+    </div>
+
+    <div class="rents-grid">
+        @for (rent of rents; track rent.id) {
+        <div class="rent-card">
+            <img [src]="'data:image/jpeg;base64,' + rent.property.base64Image" alt="Property">
+            <div class="rent-info">
+                <h3>{{rent.property.address}}</h3>
+                <p>{{rent.property.description}}</p>
+                <p class="rent">{{rent.property.rent | currency:'USD'}}</p>
+                <div class="client-info">
+                    <p><strong>Client:</strong> {{rent.client.firstName}} {{rent.client.lastName}}</p>
+                    <p><strong>Email:</strong> {{rent.client.email}}</p>
+                    <p><strong>Phone:</strong> {{rent.client.phone}}</p>
+                </div>
+                <div class="rent-dates">
+                    <p><strong>Reserved:</strong> {{rent.rentStart | date}}</p>
+                    <p><strong>Expires:</strong> {{rent.rentEnd | date}}</p>
+                </div>
             </div>
         </div>
+        }
     </div>
-    }
 </div>

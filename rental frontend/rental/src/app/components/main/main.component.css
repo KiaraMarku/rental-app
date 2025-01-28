@@ -1,0 +1,37 @@
+  :host {
+      display: block;
+      padding: 24px;
+      max-width: 1200px;
+      margin: 0 auto;
+  }
+
+  .title-card {
+      margin-bottom: 10px;
+  }
+
+  .page-title {
+      font-weight: 600;
+      color: #e39734;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+  }
+
+  .feature-card {
+      margin: 16px 0;
+  }
+
+  .feature-card.accent {
+      border-left: 4px solid #ff4081;
+
+  }
+
+  .feature-card.primary {
+      border-left: 4px solid #673ab7;
+  }
+
+  mat-card-content {
+      padding: 16px;
+  }
+
+  .my-4 {
+      margin: 24px 0;
+  }

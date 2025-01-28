@@ -98,4 +98,11 @@ public class PropertyService {
     }
 
 
+    public int countByStatus(String status) {
+        return propertyRepository.countByStatus(status);
+    }
+
+    public int countByAgentId(Integer agentId) {
+        return propertyRepository.countByAgentId(agentId);
+    }
 }

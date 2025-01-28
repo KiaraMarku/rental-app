@@ -3,6 +3,8 @@ import { Routes } from '@angular/router';
 import { AuthGuard } from './auth/auth.guard';
 import { DashboardLayoutComponent } from './components/dashboard-layout/dashboard-layout.component';
 import { ChartsComponent } from './charts/charts.component';
+import path from 'path';
+import { MainComponent } from './components/main/main.component';
 
 export const routes: Routes = [
   {
@@ -21,10 +23,16 @@ export const routes: Routes = [
     canActivate: [AuthGuard],
     children: [
       {
+        path: '', component: MainComponent
+      },
+      {
         path: 'admin',
         canActivate: [AuthGuard],
         data: { roles: ['ROLE_ADMIN'] },
         children: [
+          {
+            path: '', component: ChartsComponent
+          },
           {
             path: 'agent-register',
             loadComponent: () => import('./components/admin/agent-register/agent-register.component')
@@ -93,6 +101,6 @@ export const routes: Routes = [
     redirectTo: '/login',
     pathMatch: 'full'
   }
-,
+  ,
   { path: 'analytics', component: ChartsComponent }
 ];

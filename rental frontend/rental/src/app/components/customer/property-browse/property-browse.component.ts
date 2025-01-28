@@ -9,6 +9,10 @@ import { MatCardModule } from '@angular/material/card';
 import { MatIcon } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { ReservationService } from '../../../services/reservation.service';
+import { MatFormField, MatFormFieldModule, MatLabel } from '@angular/material/form-field';
+import { FormsModule } from '@angular/forms';
+import { PropertyFilterPipe } from "../../../property-filter.pipe";
+import { MatInputModule } from '@angular/material/input';
 
 
 @Component({
@@ -20,7 +24,11 @@ import { ReservationService } from '../../../services/reservation.service';
     CurrencyPipe,
     MatCardModule,
     MatIcon,
-    MatButtonModule],
+    MatButtonModule,
+    MatFormFieldModule,
+    MatInputModule,
+    FormsModule,
+    PropertyFilterPipe],
   templateUrl: './property-browse.component.html',
   styleUrl: './property-browse.component.css'
 })
@@ -30,6 +38,7 @@ export class PropertyBrowseComponent {
   selectedProperty: Property | null = null;
   error = '';
   isReserveModalOpen = false;
+  searchText = '';
   //For pagination
   paginatedProperties: Property[] = [];
   pageSize = 6;
@@ -43,7 +52,6 @@ export class PropertyBrowseComponent {
 
   user = this.authService.getUser();
   client = this.authService.getClientValue();
-  //client = computed(() => this.authService.currentClient());
 
   ngOnInit(): void {
     console.log(this.client)

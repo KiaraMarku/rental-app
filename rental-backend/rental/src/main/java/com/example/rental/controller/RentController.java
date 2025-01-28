@@ -59,4 +59,10 @@ public class RentController {
     public ResponseEntity<List<Rent>> getClientRents(@PathVariable Integer clientId) {
         return ResponseEntity.ok(rentService.getRentsByClientId(clientId));
     }
+
+    @GetMapping("/client/{clientId}/agent/{agentId}")
+    public ResponseEntity<List<Rent>> getClientRentsByAgent(@PathVariable Integer clientId,@PathVariable Integer agentId) {
+        return ResponseEntity.ok(rentService.getRentsByClientIdAndAgentId(clientId,agentId));
+    }
+
 }

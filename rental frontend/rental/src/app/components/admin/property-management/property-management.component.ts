@@ -243,6 +243,7 @@ export class PropertyManagementComponent implements OnInit {
           next: () => {
             this.loadProperties();
             this.closeModal();
+            this.toggleGroup.value = null;
           },
           error: (error) => this.error = error.error?.message || 'Failed to add property'
         });

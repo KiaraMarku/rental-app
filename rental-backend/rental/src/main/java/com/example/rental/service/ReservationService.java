@@ -3,6 +3,7 @@ package com.example.rental.service;
 import com.example.rental.dto.ReservationDTO;
 import com.example.rental.entety.Client;
 import com.example.rental.entety.Property;
+import com.example.rental.entety.Rent;
 import com.example.rental.entety.Reservation;
 import com.example.rental.repository.ClientRepository;
 import com.example.rental.repository.PropertyRepository;
@@ -13,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -104,5 +106,13 @@ public class ReservationService {
     public List<Reservation> getReservationsByClientId(Integer clientId) {
         return reservationRepository.findByClientId(clientId);
     }
+
+    public List<Reservation> getReservationsByClientIdAndAgentId(Integer clientId, Integer agentId) {
+        return reservationRepository.findByClientId(clientId).stream()
+                .filter(reservation -> reservation.getProperty().getAgent().getId().equals(agentId))
+                .collect(Collectors.toList());
+    }
+
+
 
 }

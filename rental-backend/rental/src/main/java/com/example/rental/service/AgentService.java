@@ -30,6 +30,8 @@ public class AgentService {
     }
 
     public void updateAgent(Agent agent){
+        String userName=agentRepository.findById(agent.getId()).orElse(null).getUsername();
+        agent.setUsername(userName);
         agentRepository.save(agent);
     }
 

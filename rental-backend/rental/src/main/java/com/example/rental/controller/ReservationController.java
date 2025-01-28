@@ -69,4 +69,12 @@ public class ReservationController {
     public ResponseEntity<List<Reservation>> getClientReservations(@PathVariable Integer clientId) {
         return ResponseEntity.ok(reservationService.getReservationsByClientId(clientId));
     }
+    
+    @GetMapping("/client/{clientId}/agent/{agentId}")
+    public ResponseEntity<List<Reservation>> getClientReservatinsByAgent(
+            @PathVariable Integer agentId,
+            @PathVariable Integer clientId) {
+        List<Reservation> reservations = reservationService.getReservationsByClientIdAndAgentId(clientId,agentId);
+        return ResponseEntity.ok(reservations);
+    }
 }

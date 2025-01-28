@@ -6,7 +6,6 @@ import { MatListModule } from '@angular/material/list';
 import { MatButtonModule } from '@angular/material/button';
 import { RouterModule } from '@angular/router';
 
-
 interface MenuItem {
   label: string;
   route: string;
@@ -42,14 +41,12 @@ export class SidebarComponent {
         ];
       case 'agent':
         return [
-          { label: 'Dashboard', route: '/dashboard/agent', icon: 'space_dashboard' },
           { label: 'My Properties', route: '/dashboard/agent/properties', icon: 'villa' },
           { label: 'Reservations', route: '/dashboard/agent/reservations', icon: 'schedule' },
           { label: 'My Rents', route: '/dashboard/agent/rents', icon: 'apartment' }
         ];
       case 'customer':
         return [
-          { label: 'Dashboard', route: '/dashboard/customer', icon: 'space_dashboard' },
           { label: 'Browse Properties', route: '/dashboard/customer/properties', icon: 'villa' },
           { label: 'My Reservations', route: '/dashboard/customer/reservations', icon: 'schedule' },
           { label: 'My Rents', route: '/dashboard/customer/rents', icon: 'apartment' }

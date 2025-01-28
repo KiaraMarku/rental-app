@@ -163,8 +163,4 @@ export class AuthService {
     return this.http.get(this.API_URL + "/" + username);
 
   }
-
-
-
-
 }

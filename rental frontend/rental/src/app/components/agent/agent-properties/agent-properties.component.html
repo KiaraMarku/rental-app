@@ -1,13 +1,37 @@
 <div class="container">
+
     <div class="properties-list">
         <h2> Properties</h2>
-
         @if (error) {
         <div class="error-message">{{error}}</div>
         }
 
+        <div class="filter">
+            <section>
+                <mat-button-toggle-group name="status" aria-label="Property Status"
+                    [hideSingleSelectionIndicator]="hideSingleSelectionIndicator()" (change)="onStatusChange($event)"
+                    #toggleGroup="matButtonToggleGroup" [(value)]="selectedStatus">
+                    <mat-button-toggle value="all">All</mat-button-toggle>
+                    <mat-button-toggle value="available">Available</mat-button-toggle>
+                    <mat-button-toggle value="reserved">Reserved</mat-button-toggle>
+                    <mat-button-toggle value="rented">Rented</mat-button-toggle>
+                </mat-button-toggle-group>
+
+            </section>
+
+
+            <form class="example-form">
+                <mat-form-field class="example-full-width">
+                    <mat-label>Search by address</mat-label>
+                    <input matInput type="text" [(ngModel)]="searchText" name="searchText">
+                    <mat-icon matSuffix>search</mat-icon>
+                </mat-form-field>
+            </form>
+
+        </div>
+        @if (properties.length>0){
         <div class="properties-grid">
-            @for (property of paginatedProperties; track property.id) {
+            @for (property of paginatedProperties|propertyFilter:searchText; track property.id) {
             <div class="property-card">
                 @if (property.base64Image) {
                 <img [src]="'data:image/jpeg;base64,' + property.base64Image" alt="Property">
@@ -34,7 +58,7 @@
             [pageSizeOptions]="[6, 12, 24, 48]" (page)="onPageChange($event)" class="mat-mdc-elevation-z8"
             aria-label="Select page">
         </mat-paginator>
-
+        }
     </div>
 
 
@@ -47,7 +71,7 @@
         <mat-card>
 
             <mat-card-header>
-                <mat-card-title>Edit Property</mat-card-title>
+                <mat-card-title>{{isEditing ? 'Edit' : 'Add New'}} Property</mat-card-title>
                 <mat-icon (click)="closeModal()">close</mat-icon>
             </mat-card-header>
 
@@ -100,7 +124,7 @@
 
                 <div class="actions">
                     <button mat-flat-button color="primary" type="submit" [disabled]="propertyForm.invalid">
-                        Edit Property
+                        {{isEditing ? 'Edit' : 'Add New'}} Property
                     </button>
                 </div>
             </form>

@@ -35,7 +35,7 @@ public class AgentController {
     }
 
     @GetMapping("/username/{username}")
-    public ResponseEntity<Agent> getClientByUserName(@PathVariable String username){
+    public ResponseEntity<Agent> getAgentByUserName(@PathVariable String username){
         return new ResponseEntity<>(agentService.getAgentByUsername(username), HttpStatus.OK);
     }
 

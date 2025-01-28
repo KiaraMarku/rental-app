@@ -10,11 +10,6 @@ public interface PropertyRepository extends JpaRepository<Property, Integer> {
     public List<Property> findByStatus(String status);
     public List<Property> findByAgentId(Integer id);
 
-    @Query("SELECT p FROM Property p JOIN p.rents r WHERE r.client.id = :clientId")
-    List<Property> findPropertiesRentedByClient(@Param("clientId") Integer clientId);
-
-
-    @Query("SELECT p FROM Property p JOIN p.reservations r WHERE r.client.id = :clientId")
-    List<Property> findPropertiesReservedByClient(@Param("clientId") Integer clientId);
-
+    int countByAgentId(Integer agentId);
+    int countByStatus(String status);
 }
